@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>45 °C 溫水液冷：為什麼 Vera Rubin 機房可以不靠冰水機｜星算 Star Counter</title>
+<meta name="description" content="每櫃 188–227 kW 的 Vera Rubin NVL72 必須液冷。星算頭份第一期以 45 °C 供水，讓乾冷器直接排熱、設計上不依賴冰水機，年均 PUE 設計值約 1.11。">
+<link rel="canonical" href="https://starai.tw/insights/warm-water-cooling.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="45 °C 溫水液冷：為什麼 Vera Rubin 機房可以不靠冰水機">
+<meta property="og:description" content="每櫃 188–227 kW 的 Vera Rubin NVL72 必須液冷。星算頭份第一期以 45 °C 供水，讓乾冷器直接排熱、設計上不依賴冰水機，年均 PUE 設計值約 1.11。">
+<meta property="og:image" content="https://starai.tw/img/coolers.jpg">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --sky:#0B0F17; --sky-2:#121925; --line:#243042; --fg:#E9EDF3; --muted:#9AA4B5;
+  --star:#E3B65C; --star-ink:#1A1206; --chart:#56B8CC; --btn:#E3B65C; --btn-ink:#1A1206;
+  --display:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:6px; --max:1180px;
+  /* illustration materials */
+  --gnd:#0F141D; --gnd-l:#1B2230;
+  --m-t:#2B3443; --m-l:#1E2531; --m-r:#171C26;
+  --c-t:#1F4C57; --c-l:#183C46; --c-r:#13313A;
+  --p-t:#4A3D22; --p-l:#3A301B; --p-r:#2D2615;
+  --rk:#07090E; --rk-tray:#151A24; --rk-edge:#2C3546;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --sky:#F7F8FA; --sky-2:#EDF0F4; --line:#D7DDE6; --fg:#0F1622; --muted:#535F71;
+  --star:#8A5B08; --star-ink:#FFFFFF; --chart:#0D6E82; --btn:#0F1622; --btn-ink:#FFFFFF;
+  --gnd:#E6E9EE; --gnd-l:#D3D9E2;
+  --m-t:#F6F7F9; --m-l:#CBD1DA; --m-r:#B0B8C4;
+  --c-t:#D2ECF1; --c-l:#A3D3DD; --c-r:#86C1CE;
+  --p-t:#F1E6CC; --p-l:#DCC9A0; --p-r:#C9B385;
+  --rk:#1A1F29; --rk-tray:#2A303D; --rk-edge:#47505F;
+  color-scheme:light}}
+:root[data-theme="light"]{
+  --sky:#F7F8FA; --sky-2:#EDF0F4; --line:#D7DDE6; --fg:#0F1622; --muted:#535F71;
+  --star:#8A5B08; --star-ink:#FFFFFF; --chart:#0D6E82; --btn:#0F1622; --btn-ink:#FFFFFF;
+  --gnd:#E6E9EE; --gnd-l:#D3D9E2;
+  --m-t:#F6F7F9; --m-l:#CBD1DA; --m-r:#B0B8C4;
+  --c-t:#D2ECF1; --c-l:#A3D3DD; --c-r:#86C1CE;
+  --p-t:#F1E6CC; --p-l:#DCC9A0; --p-r:#C9B385;
+  --rk:#1A1F29; --rk-tray:#2A303D; --rk-edge:#47505F;
+  color-scheme:light}
+
+
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--sky);color:var(--fg);font:400 17px/1.85 var(--body);-webkit-font-smoothing:antialiased}
+html[lang="en"] body{line-height:1.7}
+html[lang="en"] [data-l="zh"],html:not([lang="en"]) [data-l="en"]{display:none}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{border-bottom:1px solid var(--line);position:sticky;top:0;background:color-mix(in srgb,var(--sky) 92%,transparent);backdrop-filter:blur(10px);z-index:5}
+.top .wrap{max-width:1180px;display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.brand b{font:900 19px/1 var(--display);letter-spacing:.06em}
+.brand span{font:600 10.5px/1 var(--mono);letter-spacing:.18em;color:var(--muted)}
+.top nav{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:14px}
+.top nav a{text-decoration:none;color:var(--muted)}
+.lang{font:600 12px/1 var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--fg);cursor:pointer}
+.eyebrow{font:600 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--star)}
+header.art{padding-block:56px 28px}
+h1{font:900 clamp(30px,5vw,46px)/1.25 var(--display);margin:14px 0 16px;text-wrap:balance}
+.meta{font:500 13px var(--mono);color:var(--muted)}
+.lede{font-size:19px;color:var(--muted);margin:18px 0 0}
+figure.hero{margin:0 0 40px;border-radius:6px;overflow:hidden;background:#0b1024}
+figure.hero img{display:block;width:100%;height:auto}
+figure.hero figcaption{font:500 12px var(--mono);color:var(--muted);padding:8px 2px 0;background:var(--sky)}
+article h2{font:900 26px/1.35 var(--display);margin:44px 0 12px;text-wrap:balance}
+article p{margin:0 0 16px}
+article ul{padding-left:1.2em;margin:0 0 16px}
+article li{margin-bottom:6px}
+article strong{color:var(--fg)}
+.k{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.callout{border-left:3px solid var(--star);background:var(--sky-2);padding:16px 20px;border-radius:0 6px 6px 0;margin:24px 0}
+.fig{margin:28px 0;padding:20px;border:1px solid var(--line);border-radius:6px;background:var(--sky-2);overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.fig p{font-size:13.5px;color:var(--muted);margin:12px 0 0}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0 20px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+td.v{font-family:var(--mono);text-align:right;white-space:nowrap}
+.tw{overflow-x:auto}
+.cta{margin:56px 0 24px;padding:28px;border:1px solid color-mix(in srgb,var(--star) 45%,var(--line));border-radius:6px;background:var(--sky-2);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.cta h3{font:900 22px/1.3 var(--display);margin:0 0 6px}
+.cta p{margin:0;color:var(--muted);font-size:15px}
+.btn{display:inline-flex;font:600 14.5px/1 var(--body);padding:12px 18px;border-radius:6px;text-decoration:none;background:var(--star);color:var(--star-ink)}
+.rel{border-top:1px solid var(--line);padding-block:24px 64px;font-size:15px}
+.rel a{color:var(--star);font-weight:600;text-decoration:none}
+footer{border-top:1px solid var(--line);padding-block:28px;font:500 12px var(--mono);color:var(--muted)}
+:focus-visible{outline:2px solid var(--star);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <a class="brand" href="../index.html"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1 L15.2 10.8 L25 13 L15.2 15.2 L13 25 L10.8 15.2 L1 13 L10.8 10.8 Z" fill="var(--star)"/></svg><b>星算</b><span>STAR COUNTER</span></a>
+  <nav><a href="../index.html#resources"><span data-l="zh">所有文章</span><span data-l="en">All insights</span></a><a href="../index.html#contact"><span data-l="zh">聯絡我們</span><span data-l="en">Contact</span></a><button class="lang" id="lang" type="button">EN</button></nav>
+</div></div>
+<main class="wrap">
+  <header class="art">
+    <span class="eyebrow">Insights · Cooling</span>
+    <h1><span data-l="zh">45 °C 溫水液冷：為什麼 Vera Rubin 機房可以不靠冰水機</span><span data-l="en">45 °C warm-water cooling: why a Vera Rubin facility can run without chillers</span></h1>
+    <p class="meta"><span data-l="zh">星算工程團隊 · 2026-10-31 · 閱讀約 6 分鐘</span><span data-l="en">Star Counter engineering · 2026-10-31 · 5 min read</span></p>
+    <p class="lede"><span data-l="zh">當單櫃功率來到 200 kW 等級，冷卻設計決定了一座 AI 機房的成本結構。我們選擇把供水溫度拉高到 45 °C，讓冰水機退出主要排熱路徑。</span><span data-l="en">At 200 kW per rack, the cooling design sets the cost structure of an AI data center. We raised the supply temperature to 45 °C so that chillers leave the main heat-rejection path.</span></p>
+  </header>
+  <figure class="hero"><img src="../img/coolers.jpg" srcset="../img/coolers-800.webp 800w, ../img/coolers-1600.webp 1600w, ../img/coolers-2400.webp 2400w" sizes="(max-width:900px) 100vw, 860px" width="1600" height="900" alt=""><figcaption><span data-l="zh">3D 渲染示意</span><span data-l="en">3D render</span></figcaption></figure>
+  <article>
+    <div data-l="zh"><h2>風冷已經不夠用</h2>
+<p>NVIDIA Vera Rubin NVL72 一櫃有 72 顆 GPU。頭份第一期以每櫃 <strong class="k">188 kW</strong>（MaxQ）設計、<strong class="k">227 kW</strong>（MaxP）校核。傳統風冷機房每櫃多在數十 kW 以內，要用空氣帶走 200 kW 的熱量，風量與噪音都不切實際。因此 Vera Rubin 採用晶片冷板直接液冷，熱量絕大部分直接進入冷卻液。</p>
+<h2>水溫越高，越容易「免費」排熱</h2>
+<p>排熱的難易，取決於冷卻水和外氣的溫差。傳統冰水系統供水約 7–18 °C，外氣常常比水還熱，只能靠冰水機用壓縮機把熱「抽」出去，耗電可觀。</p>
+<p>當供水溫度提高到 <strong class="k">45 °C</strong>，外氣大多比冷卻水涼，乾冷器靠風扇就能把熱散到空氣中。台灣夏季午後的高溫時段，則由絕熱式預冷（在進風前加濕降溫）補上，冰水機不再是必要設備。</p>
+<div class="callout"><strong>設計結果</strong>：頭份第一期液冷約佔全場熱負載 <span class="k">92%</span>（MaxP），尖峰 PUE <span class="k">1.171</span>，年均約 <span class="k">1.11</span>。</div>
+<h2>剩下的 8% 怎麼辦</h2>
+<p>網路設備、儲存與電源轉換仍會產生少量需要風冷的熱。IT 模組內配置列間空調，就近處理這部分，避免為了少數設備把整個機房做成低溫環境。</p>
+<h2>第二路熱沉：廠區冷卻水</h2>
+<p>頭份園區位在既有發電廠內。除了 8 + 1 台乾冷器，我們再以板式熱交換器接入廠區冷卻水，容量為 2 × 50%。當乾冷器需要維修，或遇到極端氣候時，仍有一條獨立的排熱路徑。</p>
+<h2>對客戶的意義</h2>
+<ul><li><strong>設計支援 MaxP</strong>：機櫃設計可依 MaxP 227 kW 運轉。</li><li><strong>較低的電力成本</strong>：PUE 越低，同樣的 IT 負載需要的總電力越少。</li><li><strong>更少的機械設備</strong>：沒有冰水機，代表更少的維護項目與故障點。</li></ul></div>
+    <div data-l="en"><h2>Air is no longer enough</h2>
+<p>An NVIDIA Vera Rubin NVL72 rack holds 72 GPUs. Miaoli Phase 1 is designed at <strong class="k">188 kW</strong> per rack (Max-Q) and verified at <strong class="k">227 kW</strong> (Max-P). Conventional air-cooled halls usually stay in the tens of kilowatts per rack; moving 200 kW of heat with air is impractical in airflow and noise. Vera Rubin therefore uses direct-to-chip cold plates, and nearly all of its heat goes straight into liquid.</p>
+<h2>The warmer the water, the easier the free cooling</h2>
+<p>How hard it is to reject heat depends on the gap between water and outdoor air. Classic chilled-water systems supply roughly 7–18 °C, so outdoor air is often warmer than the water and compressors must pump the heat out, at a real energy cost.</p>
+<p>At a <strong class="k">45 °C</strong> supply, outdoor air is cooler than the water most of the time, so dry coolers can shed the heat with fans alone. For Taiwan's hottest summer afternoons, adiabatic pre-cooling of the intake air covers the gap, and chillers are no longer required.</p>
+<div class="callout"><strong>Design result</strong>: liquid carries about <span class="k">92%</span> of the site heat load (Max-P); peak PUE <span class="k">1.171</span>, annual about <span class="k">1.11</span>.</div>
+<h2>What about the remaining 8%?</h2>
+<p>Network, storage and power conversion still produce some heat that goes to air. In-row coolers inside each IT module handle it locally, so the hall never has to be chilled for a few devices.</p>
+<h2>A second heat sink: plant cooling water</h2>
+<p>The Miaoli campus sits inside an operating power plant. Beyond the 8 + 1 dry coolers, plate heat exchangers connect to the plant's cooling water at 2 × 50% capacity, giving an independent heat path during maintenance or extreme weather.</p>
+<h2>What it means for customers</h2>
+<ul><li><strong>Designed for Max-P</strong>: racks are designed to run at Max-P 227 kW.</li><li><strong>Lower energy cost</strong>: a lower PUE means less total power for the same IT load.</li><li><strong>Less machinery</strong>: no chillers means fewer maintenance items and failure points.</li></ul></div>
+    <div class="fig"><svg viewBox="0 0 760 170" role="img" aria-label="Heat path from GPU to dry cooler">
+<g font-family="JetBrains Mono, monospace" font-size="12">
+<rect x="10" y="40" width="130" height="64" rx="6" fill="var(--sky)" stroke="var(--star)"/><text x="75" y="66" text-anchor="middle" fill="var(--fg)" font-weight="600">GPU / CPU</text><text x="75" y="86" text-anchor="middle" fill="var(--muted)">cold plates</text><path d="M142 72 h14" stroke="var(--muted)" marker-end="url(#ar)"/><rect x="160" y="40" width="130" height="64" rx="6" fill="var(--sky)" stroke="var(--chart)"/><text x="225" y="66" text-anchor="middle" fill="var(--fg)" font-weight="600">Rack loop</text><text x="225" y="86" text-anchor="middle" fill="var(--muted)">45 °C supply</text><path d="M292 72 h14" stroke="var(--muted)" marker-end="url(#ar)"/><rect x="310" y="40" width="130" height="64" rx="6" fill="var(--sky)" stroke="var(--chart)"/><text x="375" y="66" text-anchor="middle" fill="var(--fg)" font-weight="600">CDU</text><text x="375" y="86" text-anchor="middle" fill="var(--muted)">2 × 2.5 MW</text><path d="M442 72 h14" stroke="var(--muted)" marker-end="url(#ar)"/><rect x="460" y="40" width="130" height="64" rx="6" fill="var(--sky)" stroke="var(--chart)"/><text x="525" y="66" text-anchor="middle" fill="var(--fg)" font-weight="600">Facility water</text><text x="525" y="86" text-anchor="middle" fill="var(--muted)">primary loop</text><path d="M592 72 h14" stroke="var(--muted)" marker-end="url(#ar)"/><rect x="610" y="40" width="130" height="64" rx="6" fill="var(--sky)" stroke="var(--chart)"/><text x="675" y="66" text-anchor="middle" fill="var(--fg)" font-weight="600">Dry cooler</text><text x="675" y="86" text-anchor="middle" fill="var(--muted)">8 + 1, adiabatic</text>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+<text x="10" y="138" fill="var(--muted)">↳ backup heat sink: plant cooling water via plate heat exchangers, 2 × 50%</text>
+</g></svg><p><span data-l="zh">熱量從晶片冷板一路以液體帶到乾冷器，中間不經過冰水機。</span><span data-l="en">Heat travels in liquid from the cold plates to the dry coolers without passing through a chiller.</span></p></div>
+    <div class="cta"><div><h3><span data-l="zh">需要完整規格？</span><span data-l="en">Need the full specification?</span></h3>
+      <p><span data-l="zh">下載頭份第一期規格書，或直接與工程團隊討論您的部署。</span><span data-l="en">Download the Miaoli Phase 1 spec sheet, or talk to our engineers about your deployment.</span></p></div>
+      <a class="btn" href="../index.html#contact"><span data-l="zh">預約第一期容量</span><span data-l="en">Reserve Phase 1 capacity</span></a></div>
+  </article>
+  <p class="rel"><span data-l="zh">延伸閱讀：</span><span data-l="en">Related: </span><a href="dr4n3-distributed-redundancy.html"><span data-l="zh">DR4N3 分散式冗餘：四座電力模組如何保護六座 IT 模組</span><span data-l="en">DR4N3 distributed redundancy</span> →</a></p>
+</main>
+<footer><div class="wrap">© 2026 星算 Star Counter · starai.tw</div></footer>
+<script>
+(function(){
+  var b = document.getElementById('lang'), l = null;
+  try { l = localStorage.getItem('sc-lang'); } catch(e) {}
+  var q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'zh') l = q;
+  if (!l) l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  function set(x){ l = x; document.documentElement.lang = x === 'en' ? 'en' : 'zh-Hant'; b.textContent = x === 'en' ? '中文' : 'EN';
+    try { localStorage.setItem('sc-lang', x); } catch(e) {} }
+  b.addEventListener('click', function(){ set(l === 'en' ? 'zh' : 'en'); });
+  set(l);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>星算 Star Counter｜台灣 Vera Rubin NVL72 液冷 AI 資料中心</title>
+<meta name="description" content="星算在台灣建置並營運高密度液冷 AI 資料中心：自有電源、45 °C 溫水液冷、預製模組，提供 NVIDIA Vera Rubin NVL72 整櫃託管與裸機租賃。苗栗頭份第一期 5 MW，2028 Q1 起交付。">
+<link rel="canonical" href="https://starai.tw/">
+<link rel="alternate" hreflang="zh-Hant" href="https://starai.tw/?lang=zh">
+<link rel="alternate" hreflang="en" href="https://starai.tw/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://starai.tw/">
+<meta name="theme-color" content="#0B0F17">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preload" as="image" href="img/aerial-1600.webp" imagesrcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="星算 Star Counter">
+<meta property="og:title" content="星算 Star Counter｜從電廠到機櫃，把算力一次交付">
+<meta property="og:description" content="台灣 Vera Rubin NVL72 液冷 AI 資料中心。苗栗頭份第一期 5 MW，2028 Q1 起交付；苗栗＋高雄規劃 100 MW。">
+<meta property="og:url" content="https://starai.tw/">
+<meta property="og:image" content="https://starai.tw/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Star Counter", "alternateName": "星算", "url": "https://starai.tw/", "logo": "https://starai.tw/img/icon-512.png", "email": "sales@starai.tw", "description": "AI data center operator in Taiwan: liquid-cooled NVIDIA Vera Rubin NVL72 colocation and bare-metal racks. Miaoli and Kaohsiung campuses, 100 MW planned.", "areaServed": "TW"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "星算做的是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "星算是台灣的 AI 資料中心營運商。我們在自有電源的工業園區建置高密度液冷機房，提供 NVIDIA Vera Rubin NVL72 整櫃託管與裸機租賃，並負責電力、冷卻、網路與日常維運。"}}, {"@type": "Question", "name": "為什麼用 45 °C 溫水液冷？", "acceptedAnswer": {"@type": "Answer", "text": "Vera Rubin NVL72 單櫃功率達 188–227 kW，風冷已無法負荷。45 °C 供水可直接以乾冷器排熱，設計上不依賴冰水機，年均 PUE 設計值約 1.11。"}}, {"@type": "Question", "name": "電力中斷時會怎樣？", "acceptedAnswer": {"@type": "Answer", "text": "每座 IT 模組由兩座不同的電力模組供電（DR4N3）。任一電力模組或匯流排支架失效，另一路立即承接；電池提供 5 分鐘維持，足以完成切換。"}}, {"@type": "Question", "name": "可以只租幾櫃嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。託管以櫃為單位，第一期共 24 櫃，可依 Pod 分批簽約。同一 Pod 內只有一個租戶。"}}, {"@type": "Question", "name": "價格怎麼算？", "acceptedAnswer": {"@type": "Answer", "text": "託管依簽約電力以 kW·月計價，參考價 US$200 起；裸機租賃依櫃數、年期與付款結構報價。請透過下方表單提供需求，我們會回覆完整報價。"}}, {"@type": "Question", "name": "有提供虛擬機或部分 GPU 嗎？", "acceptedAnswer": {"@type": "Answer", "text": "沒有。我們只以整櫃裸機出租。若需要按用量計費，請參考規劃中的推論 API。"}}, {"@type": "Question", "name": "什麼時候可以上線？", "acceptedAnswer": {"@type": "Answer", "text": "頭份第一期目標 2028 年第一季。愈早預約者愈先安裝，交付順序依簽約日期。"}}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
+
+<style>:root{--sky:#0B0F17;--sky-2:#121925;--line:#243042;--fg:#E9EDF3;--muted:#9AA4B5;--star:#E3B65C;--star-ink:#1A1206;--chart:#56B8CC;--btn:#E3B65C;--btn-ink:#1A1206;--display:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;--body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--r:6px;--max:1180px;--gnd:#0F141D;--gnd-l:#1B2230;--m-t:#2B3443;--m-l:#1E2531;--m-r:#171C26;--c-t:#1F4C57;--c-l:#183C46;--c-r:#13313A;--p-t:#4A3D22;--p-l:#3A301B;--p-r:#2D2615;--rk:#07090E;--rk-tray:#151A24;--rk-edge:#2C3546;color-scheme:dark}@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--sky:#F7F8FA;--sky-2:#EDF0F4;--line:#D7DDE6;--fg:#0F1622;--muted:#535F71;--star:#8A5B08;--star-ink:#FFFFFF;--chart:#0D6E82;--btn:#0F1622;--btn-ink:#FFFFFF;--gnd:#E6E9EE;--gnd-l:#D3D9E2;--m-t:#F6F7F9;--m-l:#CBD1DA;--m-r:#B0B8C4;--c-t:#D2ECF1;--c-l:#A3D3DD;--c-r:#86C1CE;--p-t:#F1E6CC;--p-l:#DCC9A0;--p-r:#C9B385;--rk:#1A1F29;--rk-tray:#2A303D;--rk-edge:#47505F;color-scheme:light}}:root[data-theme=light]{--sky:#F7F8FA;--sky-2:#EDF0F4;--line:#D7DDE6;--fg:#0F1622;--muted:#535F71;--star:#8A5B08;--star-ink:#FFFFFF;--chart:#0D6E82;--btn:#0F1622;--btn-ink:#FFFFFF;--gnd:#E6E9EE;--gnd-l:#D3D9E2;--m-t:#F6F7F9;--m-l:#CBD1DA;--m-r:#B0B8C4;--c-t:#D2ECF1;--c-l:#A3D3DD;--c-r:#86C1CE;--p-t:#F1E6CC;--p-l:#DCC9A0;--p-r:#C9B385;--rk:#1A1F29;--rk-tray:#2A303D;--rk-edge:#47505F;color-scheme:light}*{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--sky);color:var(--fg);font:400 16px/1.75 var(--body);-webkit-font-smoothing:antialiased}html[lang=en] body{line-height:1.65}body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0);z-index:10;background:var(--sky)}a{color:inherit}.wrap{max-width:var(--max);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}h1,h2,h3{text-wrap:balance;margin:0}h2{font:900 clamp(28px,4vw,44px)/1.25 var(--display);letter-spacing:.01em}html[lang=en] h2{letter-spacing:-.005em}h3{font:700 19px/1.4 var(--body)}p{margin:0}.eyebrow{font:600 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--star)}.muted{color:var(--muted)}.num{font-family:var(--mono);font-variant-numeric:tabular-nums}:focus-visible{outline:2px solid var(--star);outline-offset:3px}[id]{scroll-margin-top:84px}.site-header{position:sticky;top:env(safe-area-inset-top,0);z-index:9;background:color-mix(in srgb,var(--sky) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .25s ease,background .25s ease}.site-header.scrolled{box-shadow:0 8px 24px -16px rgba(0,0,0,.45);background:color-mix(in srgb,var(--sky) 96%,transparent)}.nav{display:flex;align-items:center;gap:22px;height:64px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}.brand b{font:900 21px/1 var(--display);letter-spacing:.06em}.brand span{font:600 11px/1 var(--mono);letter-spacing:.18em;color:var(--muted)}.links{display:flex;gap:20px;margin-left:auto}.links a{text-decoration:none;font-size:14.5px;color:var(--muted);white-space:nowrap}.links a:hover,.links a[aria-current=page]{color:var(--fg)}.links a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--star)}.lang{font:600 12px/1 var(--mono);letter-spacing:.1em;padding:9px 11px;border:1px solid var(--line);border-radius:var(--r);background:0 0;color:var(--fg);cursor:pointer;flex-shrink:0}.lang:hover{border-color:var(--muted)}.btn{display:inline-flex;align-items:center;gap:8px;font:600 14.5px/1 var(--body);padding:12px 18px;border-radius:var(--r);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}.btn-star{background:var(--btn);color:var(--btn-ink)}.btn-star:hover{filter:brightness(1.08)}.btn-ghost{border-color:var(--line);color:var(--fg);background:0 0}.btn-ghost:hover{border-color:var(--muted)}.menu{display:none;position:relative}.menu summary{list-style:none;cursor:pointer;font:600 12px/1 var(--mono);letter-spacing:.12em;padding:9px 11px;border:1px solid var(--line);border-radius:var(--r)}.menu summary::-webkit-details-marker{display:none}.menu nav{position:absolute;right:0;top:44px;background:var(--sky-2);border:1px solid var(--line);border-radius:var(--r);padding:8px;display:grid;min-width:200px}.menu nav a{padding:10px 12px;text-decoration:none}@media (max-width:1000px){.links,.nav>.btn{display:none}.menu{display:block;margin-left:auto}}.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}#sky{position:absolute;inset:0;width:100%;height:100%}.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-block:72px 64px}.hero h1{font:900 clamp(38px,6vw,74px)/1.14 var(--display);letter-spacing:.02em;margin-top:18px}html[lang=en] .hero h1{letter-spacing:-.01em;font-size:clamp(36px,5.2vw,64px)}.hero h1 em{font-style:normal;color:var(--star)}.hero .lede{margin-top:22px;font-size:18px;max-width:34em;color:var(--muted)}.hero .lede strong{color:var(--fg);font-weight:500}.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.plate{position:relative;min-width:0;margin:0}.plate svg{width:100%;height:auto;display:block}.plate figcaption{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:500 11.5px/1.5 var(--mono);letter-spacing:.08em;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:6px}@media (max-width:900px){.hero-grid{grid-template-columns:1fr;padding-block:48px}}.sub-hero{border-bottom:1px solid var(--line);position:relative;overflow:hidden}.sub-hero .wrap{padding-block:64px 56px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:end}.sub-hero h1{font:900 clamp(34px,5vw,60px)/1.16 var(--display);margin-top:16px}html[lang=en] .sub-hero h1{letter-spacing:-.01em}.sub-hero h1 em{font-style:normal;color:var(--star)}.sub-hero .lede{margin-top:20px;font-size:17px;color:var(--muted);max-width:34em}.crumb{font:500 12px var(--mono);letter-spacing:.08em;color:var(--muted)}.crumb a{text-decoration:none}.crumb a:hover{color:var(--fg)}@media (max-width:900px){.sub-hero .wrap{grid-template-columns:1fr;padding-block:44px}}.speccard{border:1px solid var(--line);border-radius:var(--r);background:var(--sky-2);min-width:0}.speccard header{position:static;background:0 0;backdrop-filter:none;display:flex;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);font:600 12px var(--mono);letter-spacing:.12em;color:var(--star)}.speccard dl{margin:0;display:grid;grid-template-columns:1fr auto}.speccard dd,.speccard dt{margin:0;padding:11px 20px;border-bottom:1px solid var(--line);font-size:14.5px}.speccard dt{color:var(--muted)}.speccard dd{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}.speccard dl>:nth-last-child(-n+2){border-bottom:0}.speccard .src{padding:10px 20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.ledger{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line)}.ledger div{padding:22px 18px;border-left:1px solid var(--line);min-width:0}.ledger div:first-child{border-left:0;padding-left:0}.ledger b{display:block;font:600 clamp(22px,2.6vw,30px)/1.1 var(--mono);font-variant-numeric:tabular-nums}.ledger b small{font-size:.5em;color:var(--muted);margin-left:4px}.ledger span{display:block;font-size:13px;color:var(--muted);margin-top:6px}@media (max-width:900px){.ledger{grid-template-columns:repeat(2,1fr)}.ledger div{border-left:0;padding-left:0;border-top:1px solid var(--line)}.ledger div:nth-child(-n+2){border-top:0}}section{padding-block:96px}.band{background:var(--sky-2);border-block:1px solid var(--line)}.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;margin-bottom:48px}.sec-head .eyebrow{margin-bottom:14px;display:block}.sec-head p{color:var(--muted);max-width:32em}@media (max-width:800px){.sec-head{grid-template-columns:1fr}section{padding-block:64px}}.offers{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:20px}.offer{border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px;min-width:0;background:var(--sky)}.offer.lead{background:var(--sky-2);border-color:color-mix(in srgb,var(--star) 45%,var(--line))}.tag{font:600 11px/1 var(--mono);letter-spacing:.12em;padding:6px 8px;border:1px solid var(--line);border-radius:3px;align-self:flex-start;color:var(--muted)}.offer.lead .tag{border-color:var(--star);color:var(--star)}.ticks{margin:4px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:14.5px}.ticks li{display:grid;grid-template-columns:14px 1fr;gap:8px}.ticks li::before{content:"✦";color:var(--star);font-size:10px;line-height:2.3}.offer .foot{margin-top:auto;padding-top:16px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.offer .foot b{color:var(--fg);font-family:var(--mono)}.more{color:var(--star);text-decoration:none;font-weight:500}.more:hover{text-decoration:underline}@media (max-width:960px){.offers{grid-template-columns:1fr}}.sites{display:grid;grid-template-columns:1fr 1fr;gap:20px}.site{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;min-width:0;background:var(--sky)}.site-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:24px 28px;border-bottom:1px solid var(--line);flex-wrap:wrap}.site-top h3{font:900 28px/1.2 var(--display)}.site-top .coord{font:500 12px var(--mono);color:var(--muted);letter-spacing:.06em}.kv{margin:0;display:grid;grid-template-columns:auto 1fr}.kv dd,.kv dt{margin:0;padding:12px 28px;border-bottom:1px solid var(--line);font-size:14.5px}.kv dt{color:var(--muted);padding-right:8px;white-space:nowrap}.kv dd{padding-left:8px}.kv>:nth-last-child(-n+2){border-bottom:0}.status{display:inline-block;font:600 11px/1.2 var(--mono);letter-spacing:.08em;padding:6px 8px;border-radius:3px;background:color-mix(in srgb,var(--star) 18%,transparent);color:var(--star)}.status.plan{background:color-mix(in srgb,var(--chart) 20%,transparent);color:var(--chart)}.status.cust{background:0 0;border:1px solid var(--line);color:var(--muted)}.status.opt{background:0 0;border:1px dashed var(--chart);color:var(--chart)}@media (max-width:860px){.sites{grid-template-columns:1fr}.kv dd,.kv dt{padding-inline:18px}}.stack{border-top:1px solid var(--line)}.layer{display:grid;grid-template-columns:72px 200px 1fr 260px;gap:24px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start}.layer .k{font:600 12px var(--mono);color:var(--star);letter-spacing:.1em;padding-top:4px}.layer h3{font:900 22px/1.3 var(--display)}.layer h3 small{display:block;font:500 11px var(--mono);letter-spacing:.14em;color:var(--muted);margin-top:4px}.layer p{color:var(--muted);font-size:15px}.layer .spec{font:500 13px/1.7 var(--mono);color:var(--fg);font-variant-numeric:tabular-nums}@media (max-width:900px){.layer{grid-template-columns:48px 1fr}.layer .spec,.layer p{grid-column:2}}.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}.tbl-wrap{overflow-x:auto;min-width:0}table{width:100%;border-collapse:collapse;font-size:14.5px}td,th{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}td.v,th.v{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}td.c,th.c{text-align:center}.note{margin-top:14px;font-size:13px;color:var(--muted)}.dr{display:grid;gap:10px}.dr-row{display:grid;grid-template-columns:72px repeat(4,1fr);gap:6px;align-items:center;font:500 12px var(--mono)}.dr-row span{text-align:center;padding:8px 0;border-radius:3px;border:1px solid var(--line);color:var(--muted)}.dr-row span.a{background:var(--star);border-color:var(--star);color:var(--star-ink);font-weight:600}.dr-row span.b{background:color-mix(in srgb,var(--chart) 30%,transparent);border-color:var(--chart);color:var(--fg)}.dr-row span.h{border:0;padding:0;color:var(--muted)}.dr-row>b{font-weight:600}.legend{display:flex;gap:18px;flex-wrap:wrap;font:500 12px var(--mono);color:var(--muted);margin-top:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}@media (max-width:900px){.two{grid-template-columns:1fr}}.configs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.cfg{border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sky)}.cfg.pick{border-color:color-mix(in srgb,var(--star) 55%,var(--line));background:var(--sky-2)}.cfg .gpu{font:600 34px/1 var(--mono);font-variant-numeric:tabular-nums}.cfg .gpu small{font-size:.38em;color:var(--muted);margin-left:6px}.cfg .dots{display:flex;flex-wrap:wrap;gap:4px;min-height:22px}.cfg .dots i{width:9px;height:9px;background:var(--star);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}.cfg p{font-size:14px;color:var(--muted)}.cfg .kw{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);font:500 12.5px/1.6 var(--mono);color:var(--muted)}@media (max-width:960px){.configs{grid-template-columns:1fr 1fr}}@media (max-width:520px){.configs{grid-template-columns:1fr}}.chain{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:4px}.node{flex:1 1 0;min-width:130px;border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 12px;background:var(--sky)}.node .k{font:600 10.5px var(--mono);letter-spacing:.12em;color:var(--star)}.node b{display:block;font-weight:600;font-size:15px;margin-top:6px;line-height:1.35}.node span{display:block;font:500 12px/1.5 var(--mono);color:var(--muted);margin-top:6px}.node.hot{border-color:color-mix(in srgb,var(--star) 55%,var(--line))}.node.cool{border-color:color-mix(in srgb,var(--chart) 60%,var(--line))}.arrow{flex:0 0 26px;display:grid;place-items:center;color:var(--muted);font-family:var(--mono)}.chain-label{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:36px 0 12px}.chain-label h3{font:900 20px/1.3 var(--display)}.chain-alt{margin-top:10px;font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline}.chain-alt::before{content:"↳";font-family:var(--mono);color:var(--chart)}@media (max-width:760px){.chain{flex-direction:column;overflow:visible}.node{min-width:0}.arrow{flex-basis:22px;transform:rotate(90deg)}}.road{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.road>div{padding:26px 22px 0 0;position:relative;min-width:0}.road>div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--star);box-shadow:0 0 12px var(--star)}.road>div.later::before{background:var(--sky);border:1px solid var(--chart);box-shadow:none}.road .t{font:600 12px var(--mono);letter-spacing:.1em;color:var(--muted)}.road h3{margin:8px 0}.road p{font-size:14.5px;color:var(--muted)}@media (max-width:860px){.road{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--line);margin-left:4px}.road>div{padding:0 0 28px 26px}.road>div::before{top:6px;left:-5px}}.calc{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}.calc form{padding:32px;display:grid;gap:26px;border-right:1px solid var(--line);min-width:0}.field>label{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:10px}.field>label output{font-family:var(--mono);color:var(--star)}input[type=range]{width:100%;accent-color:var(--star)}.seg{display:flex;gap:8px;flex-wrap:wrap}.seg input{position:absolute;opacity:0;pointer-events:none}.seg label{margin:0;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:14px;display:block}.seg input:checked+label{border-color:var(--star);color:var(--star);background:color-mix(in srgb,var(--star) 10%,transparent)}.seg input:focus-visible+label{outline:2px solid var(--star);outline-offset:2px}.calc-out{padding:32px;background:var(--sky-2);display:grid;gap:22px;align-content:start;min-width:0}.big{font:600 clamp(32px,4.4vw,52px)/1 var(--mono);font-variant-numeric:tabular-nums}.big small{font-size:.36em;color:var(--muted);margin-left:6px}.rows div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}.rows div b{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}.fine{font-size:12.5px;color:var(--muted)}@media (max-width:860px){.calc{grid-template-columns:1fr}.calc form{border-right:0;border-bottom:1px solid var(--line);padding:22px}.calc-out{padding:22px}}.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}.step{padding:26px 22px 0 0;position:relative;min-width:0}.step::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--star);box-shadow:0 0 12px var(--star)}.step .k{font:600 12px var(--mono);color:var(--muted);letter-spacing:.1em}.step h3{margin:10px 0 8px}.step p{font-size:14.5px;color:var(--muted)}.step .t{display:inline-block;margin-top:12px;font:500 12px var(--mono);color:var(--star)}@media (max-width:860px){.steps{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--line);margin-left:4px}.step{padding:0 0 30px 26px}.step::before{top:6px;left:-5px}}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}.facts>div{border-top:2px solid var(--star);padding-top:18px;min-width:0}.facts h3{margin-bottom:8px}.facts p{color:var(--muted);font-size:15px}@media (max-width:860px){.facts{grid-template-columns:1fr;gap:24px}}.faq{border-top:1px solid var(--line)}.faq details{border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:500;font-size:17px}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";font:400 22px/1 var(--mono);color:var(--star)}.faq details[open] summary::after{content:"−"}.faq details p{padding:0 0 22px;color:var(--muted);max-width:52em}.strip{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border:1px solid color-mix(in srgb,var(--star) 45%,var(--line));border-radius:var(--r);padding:32px;background:var(--sky-2)}.strip h2{font-size:clamp(24px,3vw,34px)}.strip p{color:var(--muted);margin-top:8px}.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}.contact h2{margin-top:14px}.contact .side p{margin-top:18px;color:var(--muted)}.contact .side ul{margin:24px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:14.5px}.contact form{display:grid;grid-template-columns:1fr 1fr;gap:16px;min-width:0}.contact .full{grid-column:1/-1}.contact label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.contact input,.contact select,.contact textarea{width:100%;font:400 15px var(--body);color:var(--fg);background:var(--sky-2);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}.contact textarea{min-height:110px;resize:vertical}.contact input:focus,.contact select:focus,.contact textarea:focus{border-color:var(--star);outline:0}.sent{grid-column:1/-1;font-size:14px;padding:12px 14px;border:1px solid var(--star);border-radius:var(--r)}@media (max-width:860px){.contact{grid-template-columns:1fr}.contact form{grid-template-columns:1fr}}footer{border-top:1px solid var(--line);padding-block:48px 40px;font-size:13.5px;color:var(--muted)}.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}.foot-grid h3{margin:0 0 12px;font:600 11px var(--mono);letter-spacing:.14em;color:var(--fg)}.foot-grid a{display:block;text-decoration:none;padding:3px 0}.foot-grid a:hover{color:var(--fg)}.foot-grid a.brand{display:flex;gap:10px}.tm{margin:32px 0 0;font-size:12px;color:var(--muted);max-width:60em}.legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font:500 12px var(--mono)}@media (max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}}.announce{background:var(--sky-2);color:var(--fg);font-size:13.5px;border-bottom:1px solid var(--line)}.announce .wrap{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;padding-block:9px;text-align:center}.announce b{font:600 10.5px var(--mono);letter-spacing:.14em;background:var(--star);color:var(--star-ink);padding:4px 7px;border-radius:3px}.announce a{font-weight:600;color:var(--star);text-underline-offset:3px}.render{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--sky-2)}.render svg{display:block;width:100%;height:auto}.render-cap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}.render-cap div{padding:14px 18px;border-left:1px solid var(--line);font-size:13.5px;min-width:0}.render-cap div:first-child{border-left:0}.render-cap b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--star);color:var(--star-ink);font:600 11px var(--mono);margin-right:8px;vertical-align:1px}.render-cap span{color:var(--muted)}@media (max-width:860px){.render-cap{grid-template-columns:1fr 1fr}.render-cap div{border-left:0;border-top:1px solid var(--line)}}.aerial-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}.aerial-head p{max-width:30em}.bm-visual{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:stretch;min-width:0}.rackfig{margin:0;border:1px solid var(--line);border-radius:var(--r);background:var(--sky-2);padding:14px 10px 8px;display:flex;flex-direction:column;align-items:center}.rackfig svg{width:200px;max-width:100%;height:auto;display:block}.rackfig figcaption{font:500 11px var(--mono);letter-spacing:.08em;color:var(--muted);margin-top:6px;text-align:center}@media (max-width:560px){.bm-visual{grid-template-columns:1fr}.rackfig svg{width:180px}}.sub-hero .wrap:has(.bm-visual){grid-template-columns:1fr 1.05fr;align-items:center}.sub-hero .wrap:has(.bm-visual) h1{font-size:clamp(32px,4.1vw,52px)}@media (max-width:900px){.sub-hero .wrap:has(.bm-visual){grid-template-columns:1fr}}.uses{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}.use{background:var(--sky);padding:28px;display:grid;gap:10px;align-content:start;min-width:0}.use svg{width:36px;height:36px;color:var(--star)}.use p{font-size:14.5px;color:var(--muted)}.use .fit{font:500 12px var(--mono);color:var(--fg);margin-top:4px}@media (max-width:900px){.uses{grid-template-columns:1fr 1fr}}@media (max-width:560px){.uses{grid-template-columns:1fr}}.cmp td.us,.cmp th.us{background:color-mix(in srgb,var(--star) 10%,transparent);color:var(--fg)}.cmp th.us{color:var(--star)}.cmp td{font-size:14.5px}.cmp th[scope=row]{font:500 14.5px/1.6 var(--body);letter-spacing:0;text-transform:none;color:var(--fg)}.cmp td:not(:first-child){color:var(--muted)}.cmp td.us{font-weight:500}.news{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.news article{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--sky)}.news svg{display:block;width:100%;height:auto;border-bottom:1px solid var(--line);background:var(--sky-2)}.news .body{padding:20px;display:grid;gap:8px}.news time{font:500 12px var(--mono);color:var(--star);letter-spacing:.06em}.news h3{font-size:17px}.news p{font-size:14px;color:var(--muted)}@media (max-width:900px){.news{grid-template-columns:1fr}}.cutaway{display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:center;margin-top:56px}.cutaway ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:c}.cutaway li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:14.5px;counter-increment:c}.cutaway li::before{content:counter(c);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--star);color:var(--star-ink);font:600 11px var(--mono)}.cutaway li span{color:var(--muted);display:block;font-size:13.5px}@media (max-width:900px){.cutaway{grid-template-columns:1fr}}:root{--on:#F4F5F9;--on-2:#C9CEDF;--on-star:#E3B65C;--shade:8,11,17}.hero{min-height:clamp(540px,58vw,780px);display:flex;align-items:flex-end;background:#0b0f17}.cover,.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}.hero-img{object-position:62% 55%}.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(var(--shade),.9) 0,rgba(var(--shade),.62) 40%,rgba(var(--shade),.05) 74%),linear-gradient(0deg,rgba(var(--shade),.75) 0,rgba(var(--shade),0) 38%)}.hero-in{position:relative;width:100%;padding-block:140px 64px}.hero-copy{max-width:640px}.on-img .eyebrow{color:var(--on-star)}.on-img h1,.on-img h2{color:var(--on)}.on-img h1 em{color:var(--on-star)}.on-img .crumb,.on-img .lede,.on-img p{color:var(--on-2)}.on-img .lede strong{color:var(--on)}.on-img .btn-ghost{border-color:rgba(255,255,255,.42);color:var(--on)}.on-img .btn-ghost:hover{border-color:var(--on)}.on-img .btn-star{background:var(--on-star);color:#1a1206}.render-note{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:14px;font:500 11px var(--mono);letter-spacing:.08em;color:var(--on-2);opacity:.8;margin:0}@media (max-width:760px){.hero-shade{background:linear-gradient(0deg,rgba(var(--shade),.94) 35%,rgba(var(--shade),.4) 100%)}.hero-in{padding-block:220px 56px}.render-note{display:none}}.mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.shot{position:relative;display:block;padding:0;border:0;border-radius:var(--r);overflow:hidden;cursor:zoom-in;background:#0b0f17;aspect-ratio:16/9;min-width:0;max-width:100%;text-align:left}.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}.shot:hover img{transform:scale(1.035)}.shot.big{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}.shot.wide{grid-column:span 2;aspect-ratio:21/9}.shot.fill{aspect-ratio:auto}.shot .cap{position:absolute;inset:auto 0 0 0;padding:44px 18px 14px;background:linear-gradient(0deg,rgba(var(--shade),.88),rgba(var(--shade),0));display:grid;gap:2px}.shot .cap b{color:var(--on);font-size:15px;font-weight:600}.shot .cap i{font-style:normal;color:var(--on-2);font-size:13px;line-height:1.5}.shot:not(.big):not(.wide) .cap i{display:none}.shot:focus-visible{outline:2px solid var(--star);outline-offset:3px}@media (max-width:860px){.mosaic{grid-template-columns:1fr}.shot.big,.shot.fill,.shot.wide{grid-column:auto;grid-row:auto;aspect-ratio:16/9}.shot .cap i{display:none}}.lb{position:fixed;inset:0;z-index:50;background:rgba(5,7,11,.95);display:grid;place-items:center;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}.lb[hidden]{display:none}.lb figure{margin:0;max-width:min(1400px,100%);display:grid;gap:12px}.lb img{width:100%;max-height:80vh;object-fit:contain;border-radius:4px}.lb figcaption{color:var(--on-2);font-size:14px;display:grid;gap:2px}.lb figcaption b{color:var(--on)}.lb-x{position:absolute;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:0 0;color:var(--on);font:400 22px/1 var(--mono);cursor:pointer}.card-img{display:block;width:calc(100% + 56px);max-width:none;margin:-28px -28px 8px;height:200px;object-fit:cover;border-bottom:1px solid var(--line)}.site-img{position:relative;aspect-ratio:21/9;overflow:hidden;border-bottom:1px solid var(--line);background:#0b0f17}.site-img img{width:100%;height:100%;object-fit:cover;display:block}.chip{position:absolute;left:14px;top:14px;font:600 10.5px/1 var(--mono);letter-spacing:.12em;padding:6px 8px;border-radius:3px;background:rgba(var(--shade),.7);color:var(--on);border:1px solid rgba(255,255,255,.25)}.statement{position:relative;overflow:hidden;background:#0b0f17;padding-block:150px}.statement .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(var(--shade),.92) 0,rgba(var(--shade),.55) 55%,rgba(var(--shade),.2) 100%)}.statement .wrap{position:relative}.statement blockquote{margin:16px 0 28px;font:900 clamp(30px,4.6vw,58px)/1.25 var(--display);color:var(--on);max-width:18em;text-wrap:balance}.statement blockquote em{font-style:normal;color:var(--on-star)}.statement a{color:var(--on-star);font-weight:600;text-decoration:none}.statement a:hover{text-decoration:underline}@media (max-width:760px){.statement{padding-block:96px}}.photo{position:relative;margin:0;border-radius:var(--r);overflow:hidden;background:#0b0f17}.photo img{display:block;width:100%;height:auto}.photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 14px;background:linear-gradient(0deg,rgba(var(--shade),.85),rgba(var(--shade),0));color:var(--on-2);font-size:13.5px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.photo figcaption b{color:var(--on);font-weight:600}.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}@media (max-width:760px){.photo-pair{grid-template-columns:1fr}.photo figcaption{position:static;background:var(--sky-2);color:var(--muted);padding:12px 16px}.photo figcaption b{color:var(--fg)}}.sub-hero.on-img{background:#0b0f17}.sub-hero.on-img .cover{object-position:50% 45%}.sub-hero.on-img .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(var(--shade),.92) 0,rgba(var(--shade),.7) 45%,rgba(var(--shade),.25) 100%)}.sub-hero.on-img .wrap{position:relative;padding-block:110px 72px}.img-strip{position:relative;overflow:hidden;border:0;background:#0b0f17}.img-strip .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(var(--shade),.92) 10%,rgba(var(--shade),.45) 100%)}.img-strip>a,.img-strip>div{position:relative}.img-strip h2{color:var(--on)}.on-img .speccard p{color:var(--muted)}.img-strip p{color:var(--on-2)}.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.lcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--sky)}.lc-img{position:relative;aspect-ratio:16/10;background:#0b0f17;overflow:hidden}.lc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}.lcard:hover .lc-img img{transform:scale(1.04)}.lc-k{position:absolute;left:14px;top:14px;font:600 11px/1 var(--mono);letter-spacing:.12em;padding:7px 9px;border-radius:3px;background:var(--on-star);color:#1a1206}.lc-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}.lc-body h3{font:900 22px/1.3 var(--display);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.lc-body h3 small{font:500 11px var(--mono);letter-spacing:.14em;color:var(--muted)}.lc-body p{color:var(--muted);font-size:14.5px}.lc-spec{list-style:none;margin:auto 0 0;padding:12px 0 0;border-top:1px dashed var(--line);display:grid;gap:6px;font:500 12.5px/1.5 var(--mono);font-variant-numeric:tabular-nums}.lc-spec li{display:flex;justify-content:space-between;gap:12px}.lc-spec li span{color:var(--muted);font-family:var(--body)}.lc-body .more{font-size:14px;margin-top:4px}@media (max-width:1000px){.layers{grid-template-columns:1fr 1fr}}@media (max-width:640px){.layers{grid-template-columns:1fr}}.build{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}.bsteps{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}.bsteps li{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}.bsteps li>b{font:600 12px var(--mono);color:var(--star);letter-spacing:.1em;padding-top:3px}.bsteps h3{font-size:16.5px;margin-bottom:4px}.bsteps p{font-size:14px;color:var(--muted)}@media (max-width:900px){.build{grid-template-columns:1fr}}.skip{position:absolute;left:-9999px;top:8px;z-index:60;background:var(--star);color:var(--star-ink);padding:10px 14px;border-radius:var(--r);font-weight:600;text-decoration:none}.skip:focus{left:max(12px,env(safe-area-inset-left,0px))}main:focus{outline:0}.links a.is-active{color:var(--fg)}.links a.is-active::after{content:"";display:block;height:2px;background:var(--star);border-radius:2px;margin-top:2px}.hero-img{animation:drift 28s ease-in-out infinite alternate;transform-origin:62% 55%}@keyframes drift{from{transform:scale(1)}to{transform:scale(1.06) translate3d(-1%,0,0)}}.mbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:none;gap:10px;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--sky) 94%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);transition:transform .25s ease}.mbar .btn{flex:1;justify-content:center}.mbar.away{transform:translateY(110%)}@media (max-width:760px){.mbar{display:flex}body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}}.totop{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--sky-2);color:var(--fg);font:600 16px/1 var(--mono);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;transform:translateY(8px)}.totop.show{opacity:1;pointer-events:auto;transform:none}.totop:hover{border-color:var(--star);color:var(--star)}@media (max-width:760px){.totop{display:none}}.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(8,11,17,.5);color:var(--on);font:400 22px/1 var(--mono);cursor:pointer}.lb-nav:hover,.lb-x:hover{border-color:var(--on)}.lb-prev{left:max(14px,env(safe-area-inset-left,0px))}.lb-next{right:max(14px,env(safe-area-inset-right,0px))}.lb-count{font:500 12px var(--mono);letter-spacing:.1em;color:var(--on-2)}@media (max-width:760px){.lb-nav{top:auto;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:none}}body.locked{overflow:hidden}@media (prefers-reduced-motion:reduce){.hero-img{animation:none}.lc-img img,.shot img{transition:none}.mbar,.totop{transition:none}}.res{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:20px}.rcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--sky);text-decoration:none;color:inherit;transition:border-color .2s ease}a.rcard:hover{border-color:var(--star)}a.rcard:hover img{transform:scale(1.04)}.rcard.spec{border-color:color-mix(in srgb,var(--star) 45%,var(--line));background:var(--sky-2)}.rc-img{position:relative;aspect-ratio:16/9;overflow:hidden;background:#0b0f17}.rc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}.rc-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}.rc-body h3{font:900 19px/1.4 var(--display)}.rc-body p{color:var(--muted);font-size:14.5px}.rc-body .more{margin-top:auto;font-size:14px}.dl{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}@media (max-width:1000px){.res{grid-template-columns:1fr 1fr}.rcard.spec{grid-column:1/-1}}@media (max-width:640px){.res{grid-template-columns:1fr}}.twinkle{animation:tw 3.6s ease-in-out infinite}@keyframes tw{0%,100%{opacity:1}50%{opacity:.45}}@media (prefers-reduced-motion:reduce){.twinkle{animation:none}html{scroll-behavior:auto}}body,html{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}.consent{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}.consent input{width:auto;margin-top:5px}.consent label{margin:0;color:var(--muted);font-size:13.5px}.consent a,.legal a{color:inherit}.direct{display:grid;gap:4px;margin-top:22px}.direct span{font-size:13px;color:var(--muted)}.direct a{font:600 18px var(--mono);color:var(--star);text-decoration:none}.btn:disabled{opacity:.6;cursor:progress}</style>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to main content">跳至主要內容</a>
+<div class="announce" role="note">
+  <div class="wrap">
+    <b>NEW</b>
+    <span data-en="Miaoli Phase 1 design is complete. Reservations are open for Q1 2028 capacity.">頭份第一期設計完成，2028 Q1 容量開放預約。</span>
+    <a href="#contact" data-en="Reserve now →">立即預約 →</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="星算 Star Counter">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1 L15.2 10.8 L25 13 L15.2 15.2 L13 25 L10.8 15.2 L1 13 L10.8 10.8 Z" fill="var(--star)"/><circle cx="21" cy="5" r="1.6" fill="var(--fg)"/><circle cx="5" cy="21" r="1.2" fill="var(--fg)"/></svg>
+      <b>星算</b><span>STAR COUNTER</span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#offer" data-en="Services">服務</a>
+      <a href="#bare-metal" data-route="bare-metal" data-en="Bare-metal racks">裸機租賃</a>
+      <a href="#campuses" data-route="campuses" data-en="Campuses">園區</a>
+      <a href="#stack" data-en="Infrastructure">架構</a>
+      <a href="#calc" data-en="Estimator">費用試算</a>
+      <a href="#faq" data-en="FAQ">常見問題</a>
+    </nav>
+    <button class="lang" type="button" id="langBtn" aria-label="Switch to English">EN</button>
+    <a class="btn btn-star" href="#contact" data-en="Reserve capacity">預約容量</a>
+    <details class="menu"><summary data-en="MENU">選單</summary>
+      <nav aria-label="Mobile">
+        <a href="#offer" data-en="Services">服務</a><a href="#bare-metal" data-en="Bare-metal racks">裸機租賃</a><a href="#campuses" data-en="Campuses">園區</a><a href="#stack" data-en="Infrastructure">架構</a><a href="#calc" data-en="Estimator">費用試算</a><a href="#faq" data-en="FAQ">常見問題</a><a href="#contact" data-en="Reserve capacity">預約容量</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<!-- ============ HOME ============ -->
+<div class="view" id="v-home">
+<section class="hero on-img" style="padding:0">
+  <img class="hero-img" src="img/aerial.jpg" srcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" sizes="100vw" width="1600" height="900" decoding="async" alt="頭份第一期 AI 資料中心黃昏鳥瞰 3D 渲染" data-en-alt="Dusk aerial 3D render of the Miaoli Phase 1 AI data center" fetchpriority="high">
+  <div class="hero-shade"></div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <span class="eyebrow">Taiwan AI Factory · NVIDIA Vera Rubin NVL72</span>
+      <h1 data-en="Power plant to rack.<br><em>Compute</em>, delivered whole.">從電廠到機櫃，<br>把<em>算力</em>一次交付。</h1>
+      <p class="lede" data-en="Star Counter builds and operates high-density, liquid-cooled AI data centers in Taiwan. <strong>Own power, warm-water liquid cooling and prefabricated modules</strong>, designed for whole-rack Vera Rubin NVL72 deployments at 188–227 kW per rack. First capacity targeted for Q1 2028.">星算在台灣建置並營運高密度液冷 AI 資料中心。<strong>自有電源、溫水液冷、預製模組</strong>，為每櫃 188–227 kW 的 Vera Rubin NVL72 整櫃部署而設計，目標 2028 年第一季起交付。</p>
+      <div class="cta-row">
+        <a class="btn btn-star" href="#contact" data-en="Reserve Phase 1 capacity">預約第一期容量</a>
+        <a class="btn btn-ghost" href="#inside" data-en="Look inside">走進 AI 工廠</a>
+      </div>
+    </div>
+  </div>
+  <p class="render-note" data-en="MIAOLI PHASE 1 · DUSK · 3D RENDER">頭份第一期 · 黃昏 · 3D 渲染示意</p>
+</section>
+
+<div class="wrap">
+  <div class="ledger">
+    <div><b>100<small>MW</small></b><span data-en="Planned across Miaoli + Kaohsiung">苗栗＋高雄規劃總容量</span></div>
+    <div><b>5<small>MW</small></b><span data-en="Phase 1 IT load, Miaoli">頭份第一期 IT 負載</span></div>
+    <div><b>227<small data-en="kW/rack">kW/櫃</small></b><span data-en="Per-rack design ceiling (Max-P)">單櫃設計上限（MaxP）</span></div>
+    <div><b>1.11</b><span data-en="Annual PUE, design value">年均 PUE 設計值</span></div>
+    <div><b>2028<small>Q1</small></b><span data-en="Phase 1 target go-live">第一期目標上線</span></div>
+  </div>
+</div>
+
+<section id="inside" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Inside the AI factory</span><h2 data-en="Walk through a Star Counter AI factory">走進星算 AI 工廠</h2></div>
+      <p data-en="From the gold-lit module rows to the racks themselves. Click any image to enlarge.">從金色燈帶的模組區，到機櫃本身。點擊任一張圖可放大。</p>
+    </div>
+    <div class="mosaic">
+      <button class="shot big" type="button" data-src="img/night-2400.webp"><img src="img/night.jpg" srcset="img/night-800.webp 800w, img/night-1600.webp 1600w, img/night-2400.webp 2400w" sizes="(max-width:860px) 100vw, 780px" width="1600" height="900" decoding="async" alt="Night view of IT modules" loading="lazy"><span class="cap"><b data-en="Module row at night">夜間模組區</b><i data-en="Gold LED lines run the length of each IT module, under the double-deck A/B busway trays.">每座 IT 模組長面都有金色燈帶，頭頂是 A/B 雙層匯流排槽。</i></span></button>
+      <button class="shot" type="button" data-src="img/hall-2400.webp"><img src="img/hall.jpg" srcset="img/hall-800.webp 800w, img/hall-1600.webp 1600w, img/hall-2400.webp 2400w" sizes="(max-width:860px) 100vw, 400px" width="1600" height="900" decoding="async" alt="Data hall interior" loading="lazy"><span class="cap"><b data-en="Inside an IT module">IT 模組內部</b><i data-en="VR NVL72 racks with in-row cooling, liquid manifolds and busway overhead.">VR NVL72 與列間空調，上方是液冷歧管與匯流排。</i></span></button>
+      <button class="shot" type="button" data-src="img/coolers-2400.webp"><img src="img/coolers.jpg" srcset="img/coolers-800.webp 800w, img/coolers-1600.webp 1600w, img/coolers-2400.webp 2400w" sizes="(max-width:860px) 100vw, 400px" width="1600" height="900" decoding="async" alt="Dry cooler row" loading="lazy"><span class="cap"><b data-en="Dry coolers, 8 + 1">乾冷器 8 + 1</b><i data-en="Adiabatic dry coolers reject 45 °C water heat without chillers.">絕熱式乾冷器直接排出 45 °C 溫水的熱量，不需冰水機。</i></span></button>
+      <button class="shot fill" type="button" data-src="img/rack-2400.webp"><img src="img/rack.jpg" srcset="img/rack-800.webp 800w, img/rack-1600.webp 1600w, img/rack-2400.webp 2400w" sizes="(max-width:860px) 100vw, 400px" width="1600" height="900" decoding="async" alt="VR NVL72 racks" loading="lazy"><span class="cap"><b>VR NVL72</b><i data-en="72 Rubin GPUs per rack, 100% liquid-cooled.">每櫃 72 顆 Rubin GPU，100% 液冷。</i></span></button>
+      <button class="shot wide" type="button" data-src="img/aerialNight-2400.webp"><img src="img/aerialNight.jpg" srcset="img/aerialNight-800.webp 800w, img/aerialNight-1600.webp 1600w, img/aerialNight-2400.webp 2400w" sizes="(max-width:860px) 100vw, 780px" width="1600" height="900" decoding="async" alt="Night aerial of the Miaoli site" loading="lazy"><span class="cap"><b data-en="Miaoli Phase 1 at night">頭份第一期夜景</b><i data-en="The data center sits beside the existing gas power plant that feeds it.">資料中心緊鄰供電的既有燃氣電廠。</i></span></button>
+      <button class="shot wide" type="button" data-src="img/lift-2400.webp"><img src="img/lift.jpg" srcset="img/lift-800.webp 800w, img/lift-1600.webp 1600w, img/lift-2400.webp 2400w" sizes="(max-width:860px) 100vw, 780px" width="1600" height="900" decoding="async" alt="Crane lifting an IT module" loading="lazy"><span class="cap"><b data-en="Lifting an IT module">IT 模組吊裝</b><i data-en="A 250 t all-terrain crane sets each factory-built module on its pad.">250 t 全地面吊車將工廠預製的模組逐座吊放定位。</i></span></button>
+      <button class="shot fill" type="button" data-src="img/power-2400.webp"><img src="img/power.jpg" srcset="img/power-800.webp 800w, img/power-1600.webp 1600w, img/power-2400.webp 2400w" sizes="(max-width:860px) 100vw, 400px" width="1600" height="900" decoding="async" alt="Power block and transformer" loading="lazy"><span class="cap"><b data-en="Power blocks">電力模組</b><i data-en="2,500 kVA transformers beside each power block.">每座電力模組旁配 2,500 kVA 變壓器。</i></span></button>
+    </div>
+    <p class="note" data-en="All images are 3D renderings for illustration, not photographs of a completed facility.">所有影像皆為 3D 渲染示意，並非已完工設施的實景照片。</p>
+  </div>
+</section>
+
+<section id="offer">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">What we offer</span><h2 data-en="Three ways to deploy whole racks">為整櫃部署而生的三種合作方式</h2></div>
+      <p data-en="We don't slice GPUs, and we don't ask you to build a data center. You decide who owns the compute; we run power, cooling, network and 24/7 operations.">我們不切分 GPU，也不讓您自己蓋機房。您決定算力要在誰手上，我們負責電、冷、網路與 24 小時維運。</p>
+    </div>
+    <div class="offers">
+      <article class="offer lead">
+        <img class="card-img" src="img/hall.jpg" srcset="img/hall-800.webp 800w, img/hall-1600.webp 1600w, img/hall-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy">
+        <span class="tag" data-en="CORE SERVICE · COLOCATION">主力服務 · COLOCATION</span>
+        <h3 data-en="High-density liquid-cooled colocation">高密度液冷託管</h3>
+        <p class="muted" data-en="You buy the VR NVL72 racks; we provide ready power, liquid-cooling loops and floor space. Billed on contracted power, single tenant, dedicated pod.">您採購 VR NVL72 機櫃，我們提供已就緒的電力、液冷迴路與機位。按簽約電力計費，單一租戶、獨立 Pod。</p>
+        <ul class="ticks">
+          <li data-en="Designed for 188 kW and verified at 227 kW per rack">單櫃 188 kW 設計、227 kW 校核</li>
+          <li data-en="45 °C warm-water direct liquid cooling, 2 × 2.5 MW CDUs per pod">45 °C 溫水直液冷，CDU 2.5 MW × 2 每 Pod</li>
+          <li data-en="Distributed redundancy DR4N3, designed to carry the load through the loss of any power block">分散式冗餘 DR4N3，設計為任一電力模組失效時持續供電</li>
+          <li data-en="Dual-path 100G+ carrier connectivity via Chunghwa Telecom">中華電信 100G 以上雙路由接入</li>
+        </ul>
+        <p class="foot"><span data-en="Reference from <b>US$200</b> / kW·month, 5 + 5 yr">參考價 <b>US$200</b> / kW·月 起，5 + 5 年約</span></p>
+      </article>
+      <article class="offer">
+        <img class="card-img" src="img/rack.jpg" srcset="img/rack-800.webp 800w, img/rack-1600.webp 1600w, img/rack-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="object-position:60% 50%">
+        <span class="tag">BARE-METAL RACK</span>
+        <h3 data-en="Bare-metal rack lease">整櫃裸機租賃</h3>
+        <p class="muted" data-en="Skip the hardware capex. Star Counter owns and operates whole VR NVL72 racks and hands them to you as bare metal, billed monthly.">不想背硬體資本支出？由星算持有並營運整櫃 VR NVL72，以裸機交付，月租計價。</p>
+        <ul class="ticks">
+          <li data-en="All 72 GPUs in the rack are yours alone">72 顆 GPU 整櫃單租，不共用</li>
+          <li data-en="Cluster fabric configured to your topology">叢集網路依需求配置</li>
+          <li data-en="Warranty, RMA and fault isolation included">保固、RMA、故障節點隔離全包</li>
+        </ul>
+        <p class="foot"><span data-en="Quoted by racks, term and prepayment">依櫃數、年期與付款結構報價</span><a class="more" href="#bare-metal" data-en="Details →">詳細 →</a></p>
+      </article>
+      <article class="offer">
+        <img class="card-img" src="img/night.jpg" srcset="img/night-800.webp 800w, img/night-1600.webp 1600w, img/night-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="object-position:30% 50%">
+        <span class="tag" data-en="INFERENCE · PLANNED">INFERENCE · 規劃中</span>
+        <h3 data-en="Inference API">推論 API</h3>
+        <p class="muted" data-en="Token-metered inference on open models, with data kept in Taiwan, for enterprises and public-sector teams that need local residency.">以 token 計量的開源模型推論服務，資料留在台灣，為需要在地落地的企業與公部門設計。</p>
+        <ul class="ticks">
+          <li data-en="OpenAI-compatible API">OpenAI 相容 API</li>
+          <li data-en="Zero retention of inputs and outputs">不保留輸入與輸出</li>
+          <li data-en="Upgrade path to dedicated endpoints">可升級為專屬端點</li>
+        </ul>
+        <p class="foot"><span data-en="Pre-registration open">開放預先登記</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="uses" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Built for your workload</span><h2 data-en="Who runs on Star Counter">誰會在星算上運算</h2></div>
+      <p data-en="Whole racks suit teams that run sustained, large jobs and need to know exactly where their hardware and data sit.">整櫃部署適合長時間、大規模運算，並且需要清楚掌握硬體與資料所在位置的團隊。</p>
+    </div>
+    <div class="uses">
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="18" cy="18" r="4"/><circle cx="6" cy="8" r="2.5"/><circle cx="30" cy="8" r="2.5"/><circle cx="6" cy="28" r="2.5"/><circle cx="30" cy="28" r="2.5"/><path d="M8 10l7 6M28 10l-7 6M8 26l7-6M28 26l-7-6"/></svg>
+        <h3 data-en="Foundation-model training">基礎模型訓練</h3>
+        <p data-en="Full pods on one NVLink-dense fabric, sized for multi-week pretraining runs.">整 Pod 承租、高密度互連，支撐數週的預訓練。</p>
+        <span class="fit" data-en="Fit: full pod · 576 GPU+">建議：整個 Pod · 576 GPU 起</span>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="8" width="22" height="20" rx="2"/><path d="M26 14l6-4v16l-6-4"/><path d="M12 14l6 4-6 4z"/></svg>
+        <h3 data-en="Generative video and media">生成式影音</h3>
+        <p data-en="Training and serving video models that need large HBM per GPU and steady throughput.">需要大容量 HBM 與穩定吞吐的影音模型訓練與服務。</p>
+        <span class="fit" data-en="Fit: 1–8 racks">建議：1–8 櫃</span>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 30h28"/><path d="M8 26V18M14 26V12M20 26V16M26 26V8"/><path d="M6 14l8-6 6 4 10-8"/></svg>
+        <h3 data-en="Finance and insurance">金融與保險</h3>
+        <p data-en="Risk models, quant research and private LLMs, with data kept on a named Taiwan site.">風險模型、量化研究與私有大模型，資料留在指定的台灣場址。</p>
+        <span class="fit" data-en="Fit: single rack · bare metal">建議：單櫃 · 裸機租賃</span>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 4c0 8 12 8 12 14S12 24 12 32M24 4c0 8-12 8-12 14s12 6 12 14"/><path d="M14 9h8M14 27h8M16 18h4"/></svg>
+        <h3 data-en="Biotech and healthcare">生醫與醫療</h3>
+        <p data-en="Protein design, drug discovery and medical imaging on single-tenant hardware.">蛋白質設計、藥物開發與醫學影像，跑在單一租戶硬體上。</p>
+        <span class="fit" data-en="Fit: 1–4 racks">建議：1–4 櫃</span>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 14L18 5l14 9"/><path d="M7 14v13M13 14v13M23 14v13M29 14v13M4 30h28"/></svg>
+        <h3 data-en="Public sector and sovereign AI">公部門與主權 AI</h3>
+        <p data-en="Compute that stays in Taiwan, with customer screening and residency written into the contract.">算力留在台灣，客戶審查與資料落地寫入合約。</p>
+        <span class="fit" data-en="Fit: dedicated pod">建議：專屬 Pod</span>
+      </div>
+      <div class="use">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 10h24M6 18h24M6 26h24"/><circle cx="11" cy="10" r="1.5" fill="currentColor"/><circle cx="11" cy="18" r="1.5" fill="currentColor"/><circle cx="11" cy="26" r="1.5" fill="currentColor"/><path d="M24 7l4 3-4 3M24 23l4 3-4 3"/></svg>
+        <h3 data-en="Inference providers">推論服務商</h3>
+        <p data-en="Token factories and API platforms that need dense, low-cost capacity close to Asian users.">需要靠近亞洲用戶、高密度且低成本容量的推論平台。</p>
+        <span class="fit" data-en="Fit: colocation · own racks">建議：託管 · 自有機櫃</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sites" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Campuses</span><h2 data-en="Two campuses, north and south, 100 MW in total">兩座園區，一南一北，合計 100 MW</h2></div>
+      <p data-en="Both campuses sit inside existing industrial sites where power and land are already secured. Miaoli runs on on-site gas generation; Kaohsiung connects to Taipower.">園區設在既有工業廠區內，電力與用地已在手上。苗栗以自有燃氣機組供電，高雄接入台電，讓客戶依電源結構與地理分散需求選址。</p>
+    </div>
+    <div class="sites">
+      <article class="site">
+        <div class="site-img"><img src="img/aerial.jpg" srcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" sizes="(max-width:860px) 100vw, 580px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="object-position:55% 60%"><span class="chip" data-en="3D RENDER">3D 渲染</span></div>
+        <div class="site-top"><h3 data-en="Miaoli">苗栗 頭份</h3><span class="coord">MIAOLI · TOUFEN</span></div>
+        <dl class="kv">
+          <dt data-en="Capacity">規劃容量</dt><dd class="num">50 MW</dd>
+          <dt data-en="Power">電源</dt><dd data-en="On-site gas gensets in parallel, dual 24 kV feeds">廠內燃氣發電機組並聯，24 kV 雙進線</dd>
+          <dt data-en="Phase 1">第一期</dt><dd data-en="5 MW · 24 × VR NVL72">5 MW · 24 櫃 VR NVL72</dd>
+          <dt data-en="Status">狀態</dt><dd><span class="status" data-en="DESIGN COMPLETE · TENDERING">設計完成 · 發包準備中</span></dd>
+        </dl>
+      </article>
+      <article class="site">
+        <div class="site-img"><img src="img/kaohsiung.jpg" srcset="img/kaohsiung-800.webp 800w, img/kaohsiung-1600.webp 1600w, img/kaohsiung-2400.webp 2400w" sizes="(max-width:860px) 100vw, 580px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="object-position:50% 60%"><span class="chip" data-en="CONCEPT">概念示意</span></div>
+        <div class="site-top"><h3 data-en="Kaohsiung">高雄 小港</h3><span class="coord">KAOHSIUNG · XIAOGANG</span></div>
+        <dl class="kv">
+          <dt data-en="Capacity">規劃容量</dt><dd class="num">50 MW</dd>
+          <dt data-en="Power">電源</dt><dd data-en="Taipower grid supply">台電供電</dd>
+          <dt data-en="Build">建置方式</dt><dd data-en="Reuses the Miaoli prefabricated module design">沿用頭份預製模組設計</dd>
+          <dt data-en="Status">狀態</dt><dd><span class="status plan" data-en="PLANNING">規劃中</span></dd>
+        </dl>
+      </article>
+    </div>
+    <p style="margin-top:24px"><a class="more" href="#campuses" data-en="Site layout, power and cooling chains →">園區配置、電力與冷卻鏈 →</a></p>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">One operator, six layers</span><h2 data-en="From the power plant to the rack, one team is accountable">從電廠到機櫃，同一個團隊負責</h2></div>
+      <p data-en="Star Counter designs, builds and operates every layer. Clear responsibility boundaries, and one point of contact when something goes wrong.">每一層都由星算設計、建置與營運，責任界面清楚，出事只有一個窗口。</p>
+    </div>
+    <div class="layers">
+      <article class="lcard">
+        <div class="lc-img"><img src="img/power.jpg" srcset="img/power-800.webp 800w, img/power-1600.webp 1600w, img/power-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="Power block and transformer, 3D render" loading="lazy" style="object-position:40% 50%"><span class="lc-k">L1 · POWER</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Power">電力</span><small>POWER</small></h3>
+          <p data-en="On-site gas generation and Taipower. Four power blocks cross-feed the IT modules (DR4N3): each runs near 62% in normal operation and no more than 98% if any block or busway tray fails.">自有燃氣機組與台電雙來源。四座電力模組交叉供電（DR4N3），正常時各約 62% 負載；任一模組或匯流排支架失效，其餘模組最高 98%。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Transformers">變壓器</span>2,500 kVA × 4</li>
+            <li><span data-en="MV feed">中壓進線</span>24 kV RMU × 2</li>
+            <li><span data-en="Batteries">電池</span>LFP · 5 min</li>
+            <li><span data-en="Busway">匯流排槽</span>1,600 A × 12</li>
+          </ul>
+        </div>
+      </article>
+      <article class="lcard">
+        <div class="lc-img"><img src="img/coolers.jpg" srcset="img/coolers-800.webp 800w, img/coolers-1600.webp 1600w, img/coolers-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="Dry coolers, 3D render" loading="lazy"><span class="lc-k">L2 · COOLING</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Cooling">冷卻</span><small>COOLING</small></h3>
+          <p data-en="45 °C warm-water direct liquid cooling, with no chillers in the design. Adiabatic dry coolers reject the heat; plant cooling water through plate heat exchangers is the second heat sink.">45 °C 溫水直接液冷，設計上不依賴冰水機。絕熱式乾冷器排熱，廠區冷卻水經板換作為第二路熱沉。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Liquid share">液冷佔比</span>≈ 92%</li>
+            <li><span data-en="CDUs per pod">每 Pod CDU</span>2.5 MW × 2</li>
+            <li><span data-en="Dry coolers">乾冷器</span>8 + 1</li>
+            <li><span data-en="PUE peak / annual">PUE 尖峰 / 年均</span>1.171 / ≈1.11</li>
+          </ul>
+        </div>
+      </article>
+      <article class="lcard">
+        <div class="lc-img"><img src="img/lift.jpg" srcset="img/lift-800.webp 800w, img/lift-1600.webp 1600w, img/lift-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="Crane lifting an IT module, 3D render" loading="lazy" style="object-position:55% 50%"><span class="lc-k">L3 · MODULES</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Modules">模組</span><small>MODULES</small></h3>
+          <p data-en="IT, cooling and power are factory-built as 3.6 m-wide modules, trucked in and craned into place. The whole Phase 1 site goes up in 15 lifts.">IT、冷卻、電力全部在工廠預製成 3.6 m 寬模組，運到現場吊裝定位。第一期全區 15 吊次完成。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Modules">預製模組</span>19</li>
+            <li><span data-en="IT module, shipped">IT 模組出貨重</span>12.3 t</li>
+            <li><span data-en="Crane">吊車</span>250 t</li>
+            <li><span data-en="Max crane utilisation">吊車最大利用率</span>60.6%</li>
+          </ul>
+          <a class="more" href="#build" data-en="How we build →">建置方式 →</a>
+        </div>
+      </article>
+      <article class="lcard">
+        <div class="lc-img"><img src="img/rack.jpg" srcset="img/rack-800.webp 800w, img/rack-1600.webp 1600w, img/rack-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="VR NVL72 racks, 3D render" loading="lazy" style="object-position:62% 50%"><span class="lc-k">L4 · RACKS</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Racks">機櫃</span><small>RACKS</small></h3>
+          <p data-en="Built to the NVIDIA Vera Rubin NVL72 rack spec: floor loading, liquid quick-connects and busway tap-offs, designed to run at Max-P.">為 NVIDIA Vera Rubin NVL72 整櫃規格設計，含承重、液冷快接與匯流排插接，設計支援 MaxP 運轉。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Design (Max-Q)">設計（MaxQ）</span>188 kW</li>
+            <li><span data-en="Verified (Max-P)">校核（MaxP）</span>227 kW</li>
+            <li><span data-en="GPUs per rack">每櫃 GPU</span>72</li>
+            <li><span data-en="Racks per pod">每 Pod 機櫃</span>8</li>
+          </ul>
+          <a class="more" href="#bare-metal" data-en="Bare-metal racks →">整櫃裸機租賃 →</a>
+        </div>
+      </article>
+      <article class="lcard">
+        <div class="lc-img"><img src="img/hall.jpg" srcset="img/hall-800.webp 800w, img/hall-1600.webp 1600w, img/hall-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="IT module interior, 3D render" loading="lazy" style="object-position:70% 30%"><span class="lc-k">L5 · NETWORK</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Network">網路</span><small>NETWORK</small></h3>
+          <p data-en="Chunghwa Telecom backbone with diverse entry paths into two meet-me rooms, and overhead trays for cluster fabric cabling between racks.">中華電信骨幹經雙路由進入兩座網路交接機房，機櫃上方設叢集網路佈線線架。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Upstream">對外頻寬</span>100G+</li>
+            <li><span data-en="Meet-me rooms">交接機房</span>MMR × 2</li>
+            <li><span data-en="Entry paths">進線路由</span>2</li>
+          </ul>
+        </div>
+      </article>
+      <article class="lcard">
+        <div class="lc-img"><img src="img/aerialNight.jpg" srcset="img/aerialNight-800.webp 800w, img/aerialNight-1600.webp 1600w, img/aerialNight-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="Night aerial, 3D render" loading="lazy" style="object-position:60% 50%"><span class="lc-k">L6 · OPERATIONS</span></div>
+        <div class="lc-body">
+          <h3><span data-en="Operations">維運</span><small>OPERATIONS</small></h3>
+          <p data-en="24 × 7 monitoring from the plant's existing control room, with OT traffic isolated through a DMZ. Card access and CCTV at every entrance, and a named owner for each customer.">由電廠既有控制室 24 × 7 監控，OT 網路經 DMZ 隔離。出入口讀卡門禁與 CCTV，每位客戶有指定負責人。</p>
+          <ul class="lc-spec">
+            <li><span data-en="Monitoring">監控</span>24 × 7</li>
+            <li><span data-en="OT / IT">OT / IT</span>DMZ</li>
+            <li><span data-en="SLA">SLA</span><span data-en="in contract">寫入合約</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="statement on-img" aria-label="Star Counter">
+  <img class="cover" src="img/aerialNight.jpg" srcset="img/aerialNight-800.webp 800w, img/aerialNight-1600.webp 1600w, img/aerialNight-2400.webp 2400w" sizes="100vw" width="1600" height="900" decoding="async" alt="" loading="lazy" style="object-position:70% 50%">
+  <div class="shade"></div>
+  <div class="wrap">
+    <span class="eyebrow">Why we are called Star Counter</span>
+    <blockquote data-en="Every star is one Vera Rubin rack.<br>Miaoli Phase 1 holds <em>twenty-four</em>.">每一顆星，都是一櫃 Vera Rubin。<br>頭份第一期，<em>二十四顆</em>。</blockquote>
+    <a href="#phase1" data-en="See the Phase 1 specification →">看第一期規格 →</a>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Why Star Counter</span><h2 data-en="A delivery schedule instead of a construction project">您拿到的是交付時程，不是一個工程案</h2></div>
+      <p data-en="How whole-rack Vera Rubin deployment compares across the three common routes.">整櫃部署 Vera Rubin 的三種常見做法比較。</p>
+    </div>
+    <div class="tbl-wrap">
+      <table class="cmp" style="min-width:720px">
+        <thead><tr><th></th><th data-en="Build your own">自建機房</th><th data-en="Typical colocation">一般託管機房</th><th class="us" data-en="Star Counter">星算</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-en="Time to capacity">取得容量</th><td data-en="Usually 2+ years: site, permits, build">通常兩年以上：選址、許可、施工</td><td data-en="Depends on available space">視既有機位而定</td><td class="us" data-en="Phase 1 from Q1 2028">第一期 2028 Q1 起交付</td></tr>
+          <tr><th scope="row" data-en="Power per rack">單櫃功率</th><td data-en="Whatever you design and fund">依自行設計與投資</td><td data-en="Mostly air-cooled, often tens of kW">多為風冷，常見數十 kW</td><td class="us" data-en="188 kW design, 227 kW verified">188 kW 設計、227 kW 校核</td></tr>
+          <tr><th scope="row" data-en="Cooling">冷卻</th><td data-en="Liquid plant to design and build">需自建液冷系統</td><td data-en="Retrofit often required">多需改造</td><td class="us" data-en="45 °C liquid, designed in from day one">45 °C 溫水液冷原生設計</td></tr>
+          <tr><th scope="row" data-en="Power source">電源</th><td data-en="Utility application and queue">需申請並排隊</td><td data-en="Limited to the building's capacity">受限於機房既有容量</td><td class="us" data-en="Own generation + Taipower, 100 MW planned">自有發電＋台電，規劃 100 MW</td></tr>
+          <tr><th scope="row" data-en="Accountability">責任窗口</th><td data-en="Many contractors">多家承包商</td><td data-en="Facility and integrator split">機房與系統商分開</td><td class="us" data-en="One operator, one SLA">單一營運商、單一 SLA</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="phase1" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Phase 1 · Miaoli</span><h2 data-en="Phase 1: 5 MW specification">第一期 5 MW 規格</h2></div>
+      <p data-en="Design values. Three pods, each with two IT modules back to back sharing a hot aisle and one cooling module.">以下為設計值。3 個 Pod、每 Pod 兩座 IT 模組背對背共用熱通道，各配一座冷卻模組。</p>
+    </div>
+    <div class="two">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th data-en="Item">項目</th><th class="v" data-en="Design value">設計值</th></tr></thead>
+          <tbody>
+            <tr><td data-en="VR NVL72 racks">VR NVL72 機櫃</td><td class="v">24</td></tr>
+            <tr><td data-en="GPUs">GPU 總數</td><td class="v">1,728</td></tr>
+            <tr><td data-en="IT load (Max-Q / Max-P)">IT 負載（MaxQ / MaxP）</td><td class="v">4,962 / 5,898 kW</td></tr>
+            <tr><td data-en="Facility peak demand">設施尖峰需量</td><td class="v">5,811 kW</td></tr>
+            <tr><td data-en="PUE (peak / annual)">PUE（尖峰 / 年均）</td><td class="v">1.171 / ≈1.11</td></tr>
+            <tr><td data-en="Supply water temperature">供水溫度</td><td class="v">45 °C</td></tr>
+            <tr><td data-en="Support racks">支援機櫃</td><td class="v">18 × 25 kW</td></tr>
+            <tr><td data-en="Battery ride-through">電池維持時間</td><td class="v">5 min</td></tr>
+          </tbody>
+        </table>
+        <p class="note" data-en="GPU count assumes 72 per rack. Values are design-stage results; final figures are confirmed at acceptance.">GPU 數以每櫃 72 顆計。數值為設計階段成果，實際以驗收為準。</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:6px" data-en="DR4N3: every IT module has two independent feeds">DR4N3：每座 IT 模組都有兩條獨立電源</h3>
+        <p class="muted" style="font-size:14.5px;margin-bottom:18px" data-en="The two modules in a pod never share a power block. In normal operation each block runs near 62%; if one fails, the other three pick up the load at no more than 98%.">同一 Pod 的兩座模組不共用電力模組。正常運轉每座電力模組約 62% 負載；任一座失效時，其餘三座承接後最高 98%。</p>
+        <div class="dr" aria-label="IT module to power block mapping">
+          <div class="dr-row"><span class="h"></span><span class="h">PB-1</span><span class="h">PB-2</span><span class="h">PB-3</span><span class="h">PB-4</span></div>
+          <div class="dr-row"><b>ITM-11</b><span class="a">A</span><span class="b">B</span><span>·</span><span>·</span></div>
+          <div class="dr-row"><b>ITM-12</b><span>·</span><span>·</span><span class="a">A</span><span class="b">B</span></div>
+          <div class="dr-row"><b>ITM-21</b><span class="a">A</span><span>·</span><span class="b">B</span><span>·</span></div>
+          <div class="dr-row"><b>ITM-22</b><span>·</span><span class="a">A</span><span>·</span><span class="b">B</span></div>
+          <div class="dr-row"><b>ITM-31</b><span class="b">B</span><span>·</span><span>·</span><span class="a">A</span></div>
+          <div class="dr-row"><b>ITM-32</b><span>·</span><span class="a">A</span><span class="b">B</span><span>·</span></div>
+        </div>
+        <div class="legend"><span><i style="background:var(--star)"></i><span data-en="Feed A">A 路</span></span><span><i style="background:var(--chart)"></i><span data-en="Feed B">B 路</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calc">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Colocation estimator</span><h2 data-en="Colocation cost estimator">託管費用試算</h2></div>
+      <p data-en="Estimates monthly colocation at the reference rate: power, cooling and space only, hardware excluded. Formal quotes depend on rack count, term and payment structure.">依參考單價估算每月託管費用，只含電力、冷卻與機位，不含硬體。正式報價依櫃數、年期與付款結構而定。</p>
+    </div>
+    <div class="calc">
+      <form id="calcForm" onsubmit="return false">
+        <div class="field">
+          <label for="racks"><span data-en="Racks">機櫃數量</span> <output id="racksOut">8</output></label>
+          <input id="racks" type="range" min="1" max="24" value="8">
+        </div>
+        <div class="field">
+          <label data-en="Contracted power per rack">簽約電力 / 櫃</label>
+          <div class="seg">
+            <input type="radio" name="kw" id="kw188" value="188" checked><label for="kw188">188 kW · Max-Q</label>
+            <input type="radio" name="kw" id="kw227" value="227"><label for="kw227">227 kW · Max-P</label>
+          </div>
+        </div>
+        <div class="field">
+          <label data-en="Term">合約年期</label>
+          <div class="seg">
+            <input type="radio" name="term" id="t5" value="5" checked><label for="t5" data-en="5 years">5 年</label>
+            <input type="radio" name="term" id="t10" value="10"><label for="t10" data-en="5 + 5 years">5 + 5 年</label>
+          </div>
+        </div>
+      </form>
+      <div class="calc-out" aria-live="polite">
+        <div><span class="eyebrow" data-en="Monthly colocation">每月託管費</span><div class="big" id="monthly" style="margin-top:12px">US$300,800</div></div>
+        <div class="rows">
+          <div><span data-en="Contracted power">簽約電力</span><b id="rKw">1,504 kW</b></div>
+          <div><span data-en="GPUs">GPU 數</span><b id="rGpu">576</b></div>
+          <div><span data-en="Equivalent per GPU-hour">折合每 GPU·小時</span><b id="rGh">US$0.72</b></div>
+          <div><span data-en="Total contract value">合約期總額</span><b id="rTot">US$18.05 M</b></div>
+        </div>
+        <p class="fine" data-en="Based on the US$200 / kW·month reference rate and 730 hours per month. For planning only; not a quote.">以參考價 US$200 / kW·月計算，每月以 730 小時折算。僅供規劃參考，不構成報價。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">From inquiry to first workload</span><h2 data-en="Four steps from inquiry to go-live">四步，從需求到上線</h2></div>
+      <p data-en="Each step has a defined output, so your hardware procurement and our construction schedule move together.">每一步都有明確產出，讓您的硬體採購與我們的工程排程同步。</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="k">STEP 1</span><h3 data-en="Capacity and spec fit">容量與規格對焦</h3><p data-en="Confirm rack count, per-rack power, fabric design and residency needs; choose the campus and pod.">確認櫃數、單櫃功率、網路架構與資料落地需求，選定園區與 Pod。</p><span class="t" data-en="≈ 2 weeks">約 2 週</span></div>
+      <div class="step"><span class="k">STEP 2</span><h3 data-en="Site visit and technical review">場勘與技術審查</h3><p data-en="On-site survey and confirmation of liquid-cooling and power interfaces; we deliver the responsibility matrix and a draft SLA.">現場勘查、液冷與供電介面確認，交付責任界面表與 SLA 草案。</p><span class="t" data-en="≈ 4 weeks">約 4 週</span></div>
+      <div class="step"><span class="k">STEP 3</span><h3 data-en="Contract and reservation">合約與保留容量</h3><p data-en="Term and payment structure shaped to your cash flow; signing locks the floor space and power.">依現金流規劃年期與付款結構，簽約後鎖定機位與電力。</p><span class="t" data-en="From signing">簽約日起算</span></div>
+      <div class="step"><span class="k">STEP 4</span><h3 data-en="Install, accept, hand over">進櫃、驗收、接手維運</h3><p data-en="Racks arrive and are installed, loops filled and energized, then handed to 24 × 7 monitoring.">機櫃到場安裝、液冷充填與送電驗收，轉入 24 × 7 監控。</p><span class="t" data-en="From Q1 2028">2028 Q1 起</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="resources" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Resources</span><h2 data-en="Specifications and engineering notes">規格文件與工程觀點</h2></div>
+      <p data-en="Take the Phase 1 spec sheet to your team, or read how we approached cooling and power.">把第一期規格書帶回團隊討論，或了解我們如何設計冷卻與電力。</p>
+    </div>
+    <div class="res">
+      <article class="rcard spec">
+        <div class="rc-img"><img src="img/aerial.jpg" srcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" sizes="(max-width:900px) 100vw, 400px" width="1600" height="900" decoding="async" loading="lazy" alt=""><span class="chip">PDF · 2 PAGES</span></div>
+        <div class="rc-body">
+          <h3 data-en="Miaoli Phase 1 spec sheet">頭份第一期規格書</h3>
+          <p data-en="Key figures, design values, DR4N3 matrix, configurations and timeline on two A4 pages.">關鍵數字、設計值、DR4N3 供電矩陣、承租規模與導入流程，兩頁 A4。</p>
+          <div class="dl"><a class="btn btn-star" href="docs/StarCounter_Phase1_SpecSheet_ZH.pdf" target="_blank" rel="noopener" data-track="download_spec_zh">中文版 PDF</a><a class="btn btn-ghost" href="docs/StarCounter_Phase1_SpecSheet_EN.pdf" target="_blank" rel="noopener" data-track="download_spec_en">English PDF</a></div>
+        </div>
+      </article>
+      <a class="rcard" href="insights/warm-water-cooling.html" data-track="read_cooling">
+        <div class="rc-img"><img src="img/coolers.jpg" srcset="img/coolers-800.webp 800w, img/coolers-1600.webp 1600w, img/coolers-2400.webp 2400w" sizes="(max-width:900px) 100vw, 400px" width="1600" height="900" decoding="async" loading="lazy" alt=""><span class="chip" data-en="INSIGHTS · COOLING">觀點 · 冷卻</span></div>
+        <div class="rc-body">
+          <h3 data-en="45 °C warm-water cooling: why a Vera Rubin facility can run without chillers">45 °C 溫水液冷：為什麼 Vera Rubin 機房可以不靠冰水機</h3>
+          <p data-en="Why we raised the supply temperature, how dry coolers handle Taiwan's summers, and what it means for PUE.">為什麼提高供水溫度、乾冷器如何應付台灣夏季，以及對 PUE 的影響。</p>
+          <span class="more" data-en="Read · 5 min →">閱讀 · 6 分鐘 →</span>
+        </div>
+      </a>
+      <a class="rcard" href="insights/dr4n3-distributed-redundancy.html" data-track="read_dr4n3">
+        <div class="rc-img"><img src="img/power.jpg" srcset="img/power-800.webp 800w, img/power-1600.webp 1600w, img/power-2400.webp 2400w" sizes="(max-width:900px) 100vw, 400px" width="1600" height="900" decoding="async" loading="lazy" alt=""><span class="chip" data-en="INSIGHTS · POWER">觀點 · 電力</span></div>
+        <div class="rc-body">
+          <h3 data-en="DR4N3 distributed redundancy: how four power blocks protect six IT modules">DR4N3 分散式冗餘：四座電力模組如何保護六座 IT 模組</h3>
+          <p data-en="Same no-break protection as 2N with roughly a third less power equipment, and what happens when a block fails.">與 2N 同等的不斷電保護，電力設備卻少約三分之一；以及任一模組失效時會發生什麼。</p>
+          <span class="more" data-en="Read · 5 min →">閱讀 · 6 分鐘 →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="news" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Newsroom</span><h2 data-en="Company updates">公司動態</h2></div>
+      <p data-en="Milestones on the way to Phase 1 go-live.">第一期上線前的里程碑。</p>
+    </div>
+    <div class="news">
+      <article>
+        <img src="img/aerial.jpg" srcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="aspect-ratio:16/8;object-fit:cover;width:100%;display:block;border-bottom:1px solid var(--line)">
+        <div class="body"><time>2026-10-23</time><h3 data-en="Miaoli Phase 1 design frozen">頭份第一期設計定案</h3><p data-en="Tender drawings and the structural and MEP calculation book are complete for the 5 MW, 24-rack Phase 1.">5 MW、24 櫃第一期完成發包圖說與結構機電計算書。</p></div>
+      </article>
+      <article>
+        <img src="img/rack.jpg" srcset="img/rack-800.webp 800w, img/rack-1600.webp 1600w, img/rack-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="aspect-ratio:16/8;object-fit:cover;object-position:60% 50%;width:100%;display:block;border-bottom:1px solid var(--line)">
+        <div class="body"><time>2026-10</time><h3 data-en="Q1 2028 capacity reservations open">開放 2028 Q1 容量預約</h3><p data-en="Colocation and bare-metal customers can now reserve racks and pods in Phase 1.">託管與裸機租賃客戶即日起可預約第一期機櫃與 Pod。</p></div>
+      </article>
+      <article>
+        <img src="img/kaohsiung.jpg" srcset="img/kaohsiung-800.webp 800w, img/kaohsiung-1600.webp 1600w, img/kaohsiung-2400.webp 2400w" sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 400px" width="1600" height="900" decoding="async" alt="" loading="lazy" style="aspect-ratio:16/8;object-fit:cover;width:100%;display:block;border-bottom:1px solid var(--line)">
+        <div class="body"><time>2026</time><h3 data-en="100 MW two-campus plan">雙園區 100 MW 規劃</h3><p data-en="Miaoli on own generation and Kaohsiung on Taipower, 50 MW each.">苗栗自有發電與高雄台電供電，各 50 MW。</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="band">
+  <div class="wrap" style="max-width:900px">
+    <span class="eyebrow">FAQ</span>
+    <h2 style="margin:14px 0 36px" data-en="Frequently asked questions">常見問題</h2>
+    <div class="faq">
+      <details><summary data-en="What does Star Counter do?">星算做的是什麼？</summary><p data-en="Star Counter is an AI data center operator in Taiwan. We build high-density liquid-cooled facilities on industrial sites with their own power, offer whole-rack Vera Rubin NVL72 colocation and bare-metal leases, and run power, cooling, network and daily operations.">星算是台灣的 AI 資料中心營運商。我們在自有電源的工業園區建置高密度液冷機房，提供 NVIDIA Vera Rubin NVL72 整櫃託管與裸機租賃，並負責電力、冷卻、網路與日常維運。</p></details>
+      <details><summary data-en="Why 45 °C warm-water cooling?">為什麼用 45 °C 溫水液冷？</summary><p data-en="At 188–227 kW per rack, Vera Rubin NVL72 is beyond what air can cool. A 45 °C supply lets dry coolers reject the heat directly, so the design does not rely on chillers and the design annual PUE is about 1.11.">Vera Rubin NVL72 單櫃功率達 188–227 kW，風冷已無法負荷。45 °C 供水可直接以乾冷器排熱，設計上不依賴冰水機，年均 PUE 設計值約 1.11。</p></details>
+      <details><summary data-en="What happens if power fails?">電力中斷時會怎樣？</summary><p data-en="Each IT module is fed by two different power blocks (DR4N3). If a block or busway tray fails, the other feed takes over immediately; batteries hold for 5 minutes, long enough to complete the transfer.">每座 IT 模組由兩座不同的電力模組供電（DR4N3）。任一電力模組或匯流排支架失效，另一路立即承接；電池提供 5 分鐘維持，足以完成切換。</p></details>
+      <details><summary data-en="Can I take just a few racks?">可以只租幾櫃嗎？</summary><p data-en="Yes. Contracts are per rack. Phase 1 has 24 racks and can be signed pod by pod; each pod has a single tenant.">可以。託管以櫃為單位，第一期共 24 櫃，可依 Pod 分批簽約。同一 Pod 內只有一個租戶。</p></details>
+      <details><summary data-en="How is pricing set?">價格怎麼算？</summary><p data-en="Colocation is priced per contracted kW per month, with a reference rate from US$200. Bare-metal leases are quoted by rack count, term and payment structure. Send your requirements through the form and we will reply with a full quote.">託管依簽約電力以 kW·月計價，參考價 US$200 起；裸機租賃依櫃數、年期與付款結構報價。請透過下方表單提供需求，我們會回覆完整報價。</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact">
+    <div class="side">
+      <span class="eyebrow">Reserve capacity</span>
+      <h2 data-en="Reserve Phase 1 capacity">預約第一期容量</h2>
+      <p data-en="Tell us the rack count, per-rack power, term and target go-live. Sales and engineering will reply together with a deployment plan: campus, pod, schedule and price.">告訴我們櫃數、單櫃功率、年期與期望上線時間，業務與工程團隊會一起回覆部署方案：園區、Pod、時程與報價。</p>
+      <ul class="muted">
+        <li data-en="✦ An engineer joins the first call">✦ 第一次通話就有工程師在場</li>
+        <li data-en="✦ Site visits to the Miaoli campus available">✦ 可安排頭份園區現場參訪</li>
+        <li data-en="✦ NDA can be signed before the first meeting">✦ 保密協議可於首次會議前簽署</li>
+      </ul>
+      <p class="direct"><span data-en="Or email us directly · reply within two business days">或直接來信 · 兩個工作天內回覆</span><a href="mailto:sales@starai.tw">sales@starai.tw</a></p>
+    </div>
+    <form id="lead" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <div><label for="f-name" data-en="Name">姓名</label><input id="f-name" name="name" required autocomplete="name"></div>
+      <div><label for="f-co" data-en="Company">公司</label><input id="f-co" name="company" required autocomplete="organization"></div>
+      <div><label for="f-mail" data-en="Work email">公司信箱</label><input id="f-mail" name="email" type="email" required autocomplete="email"></div>
+      <div><label for="f-type" data-en="Engagement">合作方式</label>
+        <select id="f-type" name="engagement"><option data-en="Liquid-cooled colocation">高密度液冷託管</option><option data-en="Bare-metal rack lease">整櫃裸機租賃</option><option data-en="Inference API pre-registration">推論 API 預先登記</option><option data-en="Not decided">尚未決定</option></select></div>
+      <div><label for="f-racks" data-en="Racks">預計櫃數</label><input id="f-racks" name="racks" type="number" min="1" placeholder="例如 8" data-en-ph="e.g. 8"></div>
+      <div><label for="f-when" data-en="Target go-live">期望上線</label>
+        <select id="f-when" name="go_live"><option>2028 Q1</option><option>2028 Q2</option><option data-en="2028 H2">2028 下半年</option><option data-en="2029 or later">2029 以後</option></select></div>
+      <div class="full"><label for="f-msg" data-en="Requirements">需求說明</label><textarea id="f-msg" name="message" placeholder="工作負載、網路架構、資料落地要求等" data-en-ph="Workload, fabric design, data residency needs"></textarea></div>
+      <div class="full consent"><input type="checkbox" id="f-ok" required><label for="f-ok" data-en="I agree that Star Counter may use these details to reply to my request, as described in the <a href='privacy.html'>privacy policy</a>.">我同意星算依<a href="privacy.html">隱私權政策</a>使用上述資料回覆我的需求。</label></div>
+      <div class="full"><button class="btn btn-star" type="submit" id="f-send" data-en="Send request">送出需求</button></div>
+      <p class="sent" id="sent" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+</div>
+
+<!-- ============ BARE-METAL ============ -->
+<div class="view" id="v-bare-metal" hidden>
+<section class="sub-hero" style="padding:0">
+  <div class="wrap">
+    <div>
+      <p class="crumb"><a href="#home" data-en="Home">首頁</a> / <span data-en="Bare-metal rack lease">整櫃裸機租賃</span></p>
+      <h1 data-en="Whole Vera Rubin racks.<br>We own them, <em>you run them</em>.">整櫃 Vera Rubin，<br>我們持有，<em>您來運算</em>。</h1>
+      <p class="lede" data-en="Star Counter buys, installs and operates the VR NVL72 racks, then hands you every GPU in them as bare metal. No hardware capex, no shared tenancy, no fractional GPUs.">由星算採購、安裝並營運 VR NVL72 機櫃，整櫃以裸機交付給您。不需硬體資本支出、不與他人共用、不切分 GPU。</p>
+      <div class="cta-row">
+        <a class="btn btn-star" href="#contact" data-en="Request a quote">索取報價</a>
+        <a class="btn btn-ghost" href="#bm-config" data-en="See configurations">看配置選項</a>
+      </div>
+    </div>
+    <div class="bm-visual">
+    <figure class="rackfig">
+      <svg id="rackElev" viewBox="0 0 220 560" role="img" aria-label="VR NVL72 rack front elevation: power shelves, 18 compute trays, 9 NVLink switch trays"></svg>
+      <figcaption data-en="FRONT ELEVATION · SCHEMATIC">機櫃正視 · 示意</figcaption>
+    </figure>
+    <div class="speccard">
+      <header><span data-en="PER RACK">每櫃規格</span><span>VR NVL72</span></header>
+      <dl>
+        <dt data-en="Rubin GPUs">Rubin GPU</dt><dd>72</dd>
+        <dt data-en="Vera CPUs">Vera CPU</dt><dd>36</dd>
+        <dt data-en="HBM4 per GPU">HBM4 / GPU</dt><dd>288 GB</dd>
+        <dt data-en="HBM4 per rack">HBM4 / 櫃</dt><dd>20.7 TB</dd>
+        <dt data-en="NVLink 6 per GPU">NVLink 6 / GPU</dt><dd>3.6 TB/s</dd>
+        <dt data-en="NVFP4 inference">NVFP4 推論</dt><dd>3.6 EFLOPS</dd>
+        <dt data-en="Cooling">冷卻</dt><dd data-en="100% liquid, 45 °C">100% 液冷 · 45 °C</dd>
+      </dl>
+      <p class="src" data-en="Per NVIDIA's published figures; final values follow the OEM spec sheet.">依 NVIDIA 公開資料，最終以 OEM 規格書為準。</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <figure class="photo">
+      <img src="img/rack.jpg" srcset="img/rack-800.webp 800w, img/rack-1600.webp 1600w, img/rack-2400.webp 2400w" sizes="(max-width:1180px) 100vw, 1150px" width="1600" height="900" decoding="async" alt="VR NVL72 racks, 3D render" loading="lazy">
+      <figcaption><span><b>VR NVL72</b> · <span data-en="Whole racks, single tenant, liquid-cooled">整櫃單租、全液冷</span></span><span data-en="3D render">3D 渲染示意</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="bm-config">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Configurations</span><h2 data-en="Sized by the rack, the pod or the whole phase">以櫃、以 Pod 或整期承租</h2></div>
+      <p data-en="A pod is two IT modules back to back with its own cooling module, eight VR NVL72 racks in all. Taking a full pod gives you a physically separate hall and CDUs.">一個 Pod 是兩座背對背的 IT 模組加一座專屬冷卻模組，共 8 櫃 VR NVL72。承租整個 Pod，即擁有實體獨立的機房與 CDU。</p>
+    </div>
+    <div class="configs">
+      <div class="cfg"><span class="tag" data-en="1 RACK">單櫃</span><div class="gpu">72<small>GPU</small></div><div class="dots" data-n="1"></div><p data-en="One NVLink domain. For fine-tuning, inference and model evaluation.">一個 NVLink 網域。適合微調、推論與模型評測。</p><div class="kw">188 / 227 kW</div></div>
+      <div class="cfg"><span class="tag" data-en="HALF POD">半 Pod</span><div class="gpu">288<small>GPU</small></div><div class="dots" data-n="4"></div><p data-en="One full IT module. A starting point for mid-scale training clusters.">一整座 IT 模組。中型訓練叢集的起點。</p><div class="kw">752 / 908 kW</div></div>
+      <div class="cfg pick"><span class="tag" style="border-color:var(--star);color:var(--star)" data-en="FULL POD">整個 Pod</span><div class="gpu">576<small>GPU</small></div><div class="dots" data-n="8"></div><p data-en="Two IT modules plus a dedicated cooling module. Physically isolated from other tenants.">兩座 IT 模組加專屬冷卻模組，與其他租戶實體隔離。</p><div class="kw">1,504 / 1,816 kW</div></div>
+      <div class="cfg"><span class="tag" data-en="ALL OF PHASE 1">第一期全區</span><div class="gpu">1,728<small>GPU</small></div><div class="dots" data-n="24"></div><p data-en="All three pods. For foundation-model training under one contract.">三個 Pod 全數。單一合約下的基礎模型訓練。</p><div class="kw">4,512 / 5,448 kW</div></div>
+    </div>
+    <p class="note" data-en="kW figures are VR rack power at Max-Q / Max-P, excluding support racks.">kW 為 VR 機櫃 MaxQ / MaxP 功率，不含支援櫃。</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Who does what</span><h2 data-en="Responsibility matrix: colocation vs bare metal">責任界面：託管與裸機租賃</h2></div>
+      <p data-en="The same campus and the same SLA framework; the difference is who owns the hardware and how far up the stack we go.">同一座園區、同一套 SLA 架構，差別在硬體歸誰、我們往上管到哪一層。</p>
+    </div>
+    <div class="tbl-wrap">
+      <table style="min-width:620px">
+        <thead><tr><th data-en="Layer">項目</th><th class="c" data-en="Colocation">液冷託管</th><th class="c" data-en="Bare-metal lease">裸機租賃</th></tr></thead>
+        <tbody>
+          <tr><td data-en="Power, cooling, physical security">電力、冷卻、實體安全</td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td></tr>
+          <tr><td data-en="Rack hardware and warranty">機櫃硬體與保固</td><td class="c"><span class="status cust" data-en="CUSTOMER">客戶</span></td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td></tr>
+          <tr><td data-en="Hardware fault handling, RMA">硬體故障處理、RMA</td><td class="c"><span class="status opt" data-en="OPTIONAL">可選</span></td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td></tr>
+          <tr><td data-en="Cluster fabric (InfiniBand / Ethernet)">叢集網路（InfiniBand / Ethernet）</td><td class="c"><span class="status opt" data-en="OPTIONAL">可選</span></td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td></tr>
+          <tr><td data-en="Base OS image and drivers">作業系統映像與驅動</td><td class="c"><span class="status cust" data-en="CUSTOMER">客戶</span></td><td class="c"><span class="status" data-en="STAR COUNTER">星算</span></td></tr>
+          <tr><td data-en="Scheduler (Slurm / Kubernetes)">排程系統（Slurm / Kubernetes）</td><td class="c"><span class="status cust" data-en="CUSTOMER">客戶</span></td><td class="c"><span class="status opt" data-en="OPTIONAL">可選</span></td></tr>
+          <tr><td data-en="Models, data, workloads">模型、資料、工作負載</td><td class="c"><span class="status cust" data-en="CUSTOMER">客戶</span></td><td class="c"><span class="status cust" data-en="CUSTOMER">客戶</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" data-en="“Optional” means available as an add-on service from Star Counter.">「可選」表示可由星算以加值服務承接。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Commercial terms</span><h2 data-en="Three inputs set the price">報價由三個條件決定</h2></div>
+      <p data-en="Because rack prices move with allocation and timing, we don't publish a list price. Send us these three and we'll return a quote for your configuration.">機櫃價格隨配額與時點變動，因此不公布牌價。提供以下三項，我們回覆您專屬配置的報價。</p>
+    </div>
+    <div class="facts">
+      <div><h3 data-en="Rack count">櫃數</h3><p data-en="From one rack to all 24 in Phase 1. Full pods get physically isolated halls and dedicated CDUs.">從單櫃到第一期全數 24 櫃。整個 Pod 承租享有實體隔離機房與專屬 CDU。</p></div>
+      <div><h3 data-en="Term">年期</h3><p data-en="Multi-year contracts. Longer terms lower the monthly rate; the start date runs from rack acceptance.">多年期合約，年期越長月租越低；起租日以機櫃驗收日起算。</p></div>
+      <div><h3 data-en="Prepayment">預付比例</h3><p data-en="A higher prepayment shortens our financing and lowers your total cost. Structures are designed per project.">預付比例越高，總成本越低。付款結構依專案設計。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Compliance</span><h2 data-en="Built for the people who review the contract">為審合約的人準備好</h2></div>
+      <p data-en="Single tenancy, data residency and screening are written into the contract, not left to a policy page.">單一租戶、資料落地與客戶審查都寫進合約，而不只是網站上的政策。</p>
+    </div>
+    <div class="facts">
+      <div><h3 data-en="Single tenant">單一租戶</h3><p data-en="Racks are never shared or sliced. A full pod means a physically separate hall and cooling loop.">機櫃不共用、不切分。承租整個 Pod，機房與冷卻迴路實體獨立。</p></div>
+      <div><h3 data-en="Data residency in Taiwan">資料落地台灣</h3><p data-en="The campus is fixed in the contract: Miaoli or Kaohsiung. Your hardware stays at the site named in the contract.">合約載明園區（苗栗或高雄），運算設備位於合約載明的場址。</p></div>
+      <div><h3 data-en="Customer screening">客戶審查</h3><p data-en="Every deployment passes KYC and export-control review before capacity is confirmed.">每一案在確認容量前完成 KYC 與出口管制合規審查。</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:900px">
+    <span class="eyebrow">FAQ</span>
+    <h2 style="margin:14px 0 36px" data-en="Bare-metal questions">裸機租賃常見問題</h2>
+    <div class="faq">
+      <details><summary data-en="Do you offer VMs or fractional GPUs?">有提供虛擬機或部分 GPU 嗎？</summary><p data-en="No. We lease whole racks as bare metal. If you need token-metered access, see the planned inference API.">沒有。我們只以整櫃裸機出租。若需要按用量計費，請參考規劃中的推論 API。</p></details>
+      <details><summary data-en="When can racks go live?">什麼時候可以上線？</summary><p data-en="Phase 1 in Miaoli targets Q1 2028. Racks reserved earlier are installed first; delivery order follows contract date.">頭份第一期目標 2028 年第一季。愈早預約者愈先安裝，交付順序依簽約日期。</p></details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="strip img-strip">
+      <img class="cover" src="img/hall.jpg" srcset="img/hall-800.webp 800w, img/hall-1600.webp 1600w, img/hall-2400.webp 2400w" sizes="100vw" width="1600" height="900" decoding="async" alt="" loading="lazy">
+      <div class="shade"></div>
+      <div><h2 data-en="Get a bare-metal quote">取得裸機租賃報價</h2><p data-en="Rack count, term and prepayment are all we need to start.">提供櫃數、年期與預付比例即可開始。</p></div>
+      <a class="btn btn-star" href="#contact" data-en="Request a quote">索取報價</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ CAMPUSES ============ -->
+<div class="view" id="v-campuses" hidden>
+<section class="sub-hero on-img" style="padding:0">
+  <img class="cover" src="img/aerialNight.jpg" srcset="img/aerialNight-800.webp 800w, img/aerialNight-1600.webp 1600w, img/aerialNight-2400.webp 2400w" sizes="100vw" width="1600" height="900" decoding="async" alt="" loading="lazy">
+  <div class="shade"></div>
+  <div class="wrap">
+    <div>
+      <p class="crumb"><a href="#home" data-en="Home">首頁</a> / <span data-en="Campuses">園區</span></p>
+      <h1 data-en="Two campuses.<br><em>100 MW</em> on secured power.">兩座園區，<br><em>100 MW</em> 電力在手。</h1>
+      <p class="lede" data-en="Both campuses are inside industrial sites we already operate. Power, land and plant water are in place, so construction starts from modules, not from a permit queue.">兩座園區都位於我們已在營運的工業廠區內。電力、用地與廠區用水都已就緒，工程從模組開始，而不是從排隊申請開始。</p>
+    </div>
+    <div class="speccard">
+      <header><span data-en="PORTFOLIO">園區總覽</span><span>100 MW</span></header>
+      <dl>
+        <dt data-en="Miaoli">苗栗 頭份</dt><dd>50 MW</dd>
+        <dt data-en="Kaohsiung">高雄 小港</dt><dd>50 MW</dd>
+        <dt data-en="Phase 1 (Miaoli)">第一期（頭份）</dt><dd>5 MW</dd>
+        <dt data-en="Phase 1 go-live">第一期上線</dt><dd>2028 Q1</dd>
+        <dt data-en="Carrier">電信</dt><dd>Chunghwa Telecom</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <figure class="render">
+      <svg class="iso-aerial" viewBox="0 0 900 590" role="img" aria-label="Isometric illustration of the Miaoli Phase 1 site"></svg>
+      <div class="render-cap">
+        <div><b>1</b><span data-en="IT modules: 3 pods, 6 modules">IT 模組：3 Pod、6 座</span></div>
+        <div><b>2</b><span data-en="Cooling modules, one per pod">冷卻模組，每 Pod 一座</span></div>
+        <div><b>3</b><span data-en="Power blocks, DR4N3 cross-fed">電力模組，DR4N3 交叉供電</span></div>
+        <div><b>4</b><span data-en="Dry coolers, 8 + 1">乾冷器 8 + 1</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section id="miaoli">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Miaoli · Toufen</span><h2 data-en="Miaoli campus: 50 MW on its own generation">苗栗頭份園區：50 MW 自有發電</h2></div>
+      <p data-en="On-site gas gensets run in parallel and feed the campus through dual 24 kV ring main units. Phase 1 occupies a 105 × 63 m plot built entirely from prefabricated modules.">廠內燃氣機組並聯運轉，經 24 kV 雙進線環路開關供電。第一期佔地 105 × 63 m，全部以預製模組建成。</p>
+    </div>
+    <div class="two">
+      <figure class="plate">
+        <svg id="constellation" viewBox="0 0 520 380" role="img" aria-label="Phase 1 constellation: 3 pods, 6 IT modules, 24 VR NVL72 racks"></svg>
+        <figcaption><span data-en="PHASE 1 · STAR CHART">第一期 · 星圖</span><span data-en="1 ✦ = 1 VR NVL72 rack">1 ✦ = 1 櫃 VR NVL72</span></figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th data-en="Module">模組</th><th class="v" data-en="Qty">數量</th><th data-en="Role">功能</th></tr></thead>
+          <tbody>
+            <tr><td><b class="num">ITM</b></td><td class="v">6</td><td data-en="IT module, 8.4 × 3.6 m: 4 VR NVL72 + 3 support racks">IT 模組 8.4 × 3.6 m：4 櫃 VR NVL72 ＋ 3 支援櫃</td></tr>
+            <tr><td><b class="num">CM</b></td><td class="v">3</td><td data-en="Cooling module, 2 × 2.5 MW CDUs, one per pod">冷卻模組，CDU 2.5 MW × 2，每 Pod 一座</td></tr>
+            <tr><td><b class="num">PB</b></td><td class="v">4</td><td data-en="Power block: 2,500 kVA transformer, UPS, LFP batteries">電力模組：2,500 kVA 變壓器、UPS、LFP 電池</td></tr>
+            <tr><td><b class="num">MVSG</b></td><td class="v">2</td><td data-en="Medium-voltage switchgear">中壓開關設備</td></tr>
+            <tr><td><b class="num">MPB</b></td><td class="v">2</td><td data-en="Mechanical plant block">機械設備模組</td></tr>
+            <tr><td><b class="num">MMR</b></td><td class="v">2</td><td data-en="Meet-me rooms, diverse carrier entry">網路交接機房，雙路由進場</td></tr>
+          </tbody>
+          <tfoot><tr><td><b data-en="Total">合計</b></td><td class="v"><b>19</b></td><td class="muted" data-en="Single storey, crane-lifted">單層、吊裝定位</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="cutaway">
+      <figure class="render">
+        <svg id="podCut" viewBox="0 0 620 440" role="img" aria-label="Cutaway of one pod: two IT modules back to back and a cooling module"></svg>
+      </figure>
+      <div>
+        <span class="eyebrow">Inside a pod</span>
+        <h3 style="font:900 26px/1.3 var(--display);margin:12px 0 20px" data-en="One pod, roof removed">一個 Pod 的內部</h3>
+        <ol>
+          <li><div><b data-en="VR NVL72 racks × 8">VR NVL72 × 8 櫃</b><span data-en="Four at each end of the two IT modules">兩座 IT 模組兩端各 4 櫃</span></div></li>
+          <li><div><b data-en="Shared hot aisle, 1.5 m">共用熱通道 1.5 m</b><span data-en="The two modules sit back to back">兩座模組背對背排列</span></div></li>
+          <li><div><b data-en="Support and in-row cooling">支援櫃與列間空調</b><span data-en="Network, storage and the ≈8% of heat that still goes to air">網路、儲存，以及約 8% 仍需風冷的熱量</span></div></li>
+          <li><div><b data-en="Cooling module">冷卻模組</b><span data-en="2 × 2.5 MW CDUs feeding 45 °C water to the racks">CDU 2.5 MW × 2，供應 45 °C 水至機櫃</span></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="chain-label"><h3 data-en="Power chain">電力鏈</h3><span class="eyebrow">DR4N3</span></div>
+    <div class="chain">
+      <div class="node hot"><span class="k">SOURCE</span><b data-en="Gas gensets / Taipower">燃氣機組 / 台電</b><span data-en="parallel, plant-owned">並聯、廠內自有</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><span class="k">24 kV</span><b data-en="Ring main units">環路開關 RMU</b><span data-en="dual incoming feeds">雙進線</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><span class="k">TX</span><b data-en="Transformers">變壓器</b><span>2,500 kVA × 4</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><span class="k">PB</span><b data-en="UPS + LFP">UPS ＋ LFP</b><span data-en="5 min ride-through">5 分鐘維持</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><span class="k">BUSWAY</span><b data-en="A / B busway">A / B 匯流排槽</b><span>1,600 A × 12</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node hot"><span class="k">RACK</span><b>VR NVL72</b><span>188–227 kW</span></div>
+    </div>
+
+    <div class="chain-label"><h3 data-en="Cooling chain">冷卻鏈</h3><span class="eyebrow" style="color:var(--chart)">45 °C WARM WATER</span></div>
+    <div class="chain">
+      <div class="node hot"><span class="k">CHIP</span><b data-en="GPU / CPU cold plates">GPU / CPU 冷板</b><span data-en="100% liquid">100% 液冷</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node cool"><span class="k">TCS</span><b data-en="Rack loop">機櫃迴路</b><span data-en="45 °C supply">供水 45 °C</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node cool"><span class="k">CDU</span><b data-en="Coolant distribution">冷卻液分配</b><span>2.5 MW × 2 / pod</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node cool"><span class="k">FWS</span><b data-en="Facility water">設施水迴路</b><span data-en="primary side">一次側</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node cool"><span class="k">REJECT</span><b data-en="Adiabatic dry coolers">絕熱式乾冷器</b><span>8 + 1</span></div>
+    </div>
+    <p class="chain-alt" data-en="Second heat sink: plant cooling water through plate heat exchangers, 2 × 50%.">第二路熱沉：廠區冷卻水經板式熱交換器，2 × 50%。</p>
+    <div class="photo-pair">
+      <figure class="photo"><img src="img/coolers.jpg" srcset="img/coolers-800.webp 800w, img/coolers-1600.webp 1600w, img/coolers-2400.webp 2400w" sizes="(max-width:760px) 100vw, 580px" width="1600" height="900" decoding="async" alt="Dry coolers, 3D render" loading="lazy"><figcaption><span><b data-en="Dry coolers">乾冷器陣列</b> · 8 + 1</span><span data-en="3D render">3D 渲染示意</span></figcaption></figure>
+      <figure class="photo"><img src="img/hall.jpg" srcset="img/hall-800.webp 800w, img/hall-1600.webp 1600w, img/hall-2400.webp 2400w" sizes="(max-width:1180px) 100vw, 1150px" width="1600" height="900" decoding="async" alt="IT module interior, 3D render" loading="lazy"><figcaption><span><b data-en="IT module interior">IT 模組內部</b> · <span data-en="manifolds and busway">歧管與匯流排</span></span><span data-en="3D render">3D 渲染示意</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">How we build</span><h2 data-en="Built in the factory, lifted into place">工廠預製，現場吊裝</h2></div>
+      <p data-en="Every module leaves the factory tested, so site work is limited to foundations, lifting, piping and energizing. That is how a 5 MW phase is counted in months.">每座模組出廠前完成測試，現場只剩基礎、吊裝、接管與送電。5 MW 一期的工期因此以月計算。</p>
+    </div>
+    <div class="build">
+      <button class="shot" type="button" data-src="img/lift-2400.webp" style="aspect-ratio:16/10"><img src="img/lift.jpg" srcset="img/lift-800.webp 800w, img/lift-1600.webp 1600w, img/lift-2400.webp 2400w" sizes="(max-width:860px) 100vw, 400px" width="1600" height="900" decoding="async" alt="Crane lifting an IT module, 3D render" loading="lazy"><span class="cap"><b data-en="ITM-21 on the hook">ITM-21 吊裝中</b><i data-en="3D render">3D 渲染示意</i></span></button>
+      <div>
+        <ol class="bsteps">
+          <li><b>01</b><div><h3 data-en="Factory build and test">工廠製造與測試</h3><p data-en="Cladding, busway tap-offs, piping and controls are installed and tested in the factory.">外殼、匯流排插接、管路與控制系統在工廠完成並測試。</p></div></li>
+          <li><b>02</b><div><h3 data-en="Transport">運輸進場</h3><p data-en="Modules travel as oversize loads; IT modules ship at 12.3 t, batteries travel separately.">模組以超寬貨運進場；IT 模組出貨重 12.3 t，電池另行運送。</p></div></li>
+          <li><b>03</b><div><h3 data-en="Lift and set">吊裝定位</h3><p data-en="One 250 t crane works from five stations; 15 lifts set the whole phase, at no more than 60.6% of crane capacity.">一部 250 t 吊車、五個站位，15 吊次完成全區，最大利用率 60.6%。</p></div></li>
+          <li><b>04</b><div><h3 data-en="Connect and commission">接管、送電與整合測試</h3><p data-en="Busway, liquid loops and controls are connected, then the site is energized and tested as a whole.">連接匯流排、液冷迴路與控制系統，送電後進行全場整合測試。</p></div></li>
+        </ol>
+        <div class="tbl-wrap">
+          <table>
+            <tbody>
+              <tr><td data-en="Prefabricated modules">預製模組</td><td class="v">19</td></tr>
+              <tr><td data-en="IT module (L × W × H)">IT 模組（長 × 寬 × 高）</td><td class="v">8.4 × 3.6 × 3.5 m</td></tr>
+              <tr><td data-en="IT module, shipped / operating">IT 模組 出貨 / 營運重量</td><td class="v">12.3 / 23.85 t</td></tr>
+              <tr><td data-en="Power block, shipped">電力模組出貨重</td><td class="v">24.3 t</td></tr>
+              <tr><td data-en="Busway runs, total length">匯流排槽 路數 / 總長</td><td class="v">12 / ≈ 430 m</td></tr>
+              <tr><td data-en="Design checks passed">設計計算檢核</td><td class="v" data-en="78 / 78">78 / 78 項通過</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Kaohsiung · Xiaogang</span><h2 data-en="Kaohsiung campus: 50 MW on the Taipower grid">高雄小港園區：50 MW 台電供電</h2></div>
+      <p data-en="The southern campus pairs with Miaoli for geographic diversity and a different power source. It reuses the Miaoli module design, so engineering carries over.">南部園區與苗栗互為地理分散，電源來源也不同。沿用頭份的模組設計，工程成果可直接延用。</p>
+    </div>
+    <figure class="photo" style="margin-bottom:24px">
+      <img src="img/kaohsiung.jpg" srcset="img/kaohsiung-800.webp 800w, img/kaohsiung-1600.webp 1600w, img/kaohsiung-2400.webp 2400w" sizes="(max-width:1180px) 100vw, 1150px" width="1600" height="900" decoding="async" alt="Kaohsiung campus concept, 3D render" loading="lazy">
+      <figcaption><span><b data-en="Kaohsiung campus">高雄小港園區</b> · <span data-en="50 MW concept massing next to the port">港區旁 50 MW 量體概念</span></span><span data-en="Concept render">概念渲染</span></figcaption>
+    </figure>
+    <div class="sites">
+      <article class="site">
+        <div class="site-top"><h3 data-en="Kaohsiung">高雄 小港</h3><span class="status plan" data-en="PLANNING">規劃中</span></div>
+        <dl class="kv">
+          <dt data-en="Capacity">規劃容量</dt><dd class="num">50 MW</dd>
+          <dt data-en="Power">電源</dt><dd data-en="Taipower grid supply">台電供電</dd>
+          <dt data-en="Cooling">冷卻</dt><dd data-en="45 °C warm-water liquid cooling, designed to site climate">45 °C 溫水液冷，依場址氣候設計</dd>
+          <dt data-en="Build">建置</dt><dd data-en="Prefabricated modules, phased by demand">預製模組，依需求分期</dd>
+        </dl>
+      </article>
+      <article class="site">
+        <div class="site-top"><h3 data-en="Why two sites">為什麼要兩座</h3></div>
+        <ul class="ticks" style="padding:20px 28px 24px">
+          <li data-en="Different power sources: own generation in the north, utility grid in the south">電源不同：北部自有發電、南部台電電網</li>
+          <li data-en="Geographic separation for disaster recovery and replicated clusters">地理分散，可做異地備援與複製叢集</li>
+          <li data-en="One contract, one operator, one SLA framework across both">兩地同一合約、同一營運商、同一套 SLA</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Roadmap</span><h2 data-en="Build-out roadmap">建置路線圖</h2></div>
+      <p data-en="Phase 1 proves the module design at 5 MW. Later phases repeat the same modules, with timing set by signed demand.">第一期以 5 MW 驗證模組設計，後續各期重複同一套模組，時程依已簽約需求而定。</p>
+    </div>
+    <div class="road">
+      <div><span class="t">2028 Q1</span><h3 data-en="Miaoli Phase 1 · 5 MW">頭份第一期 · 5 MW</h3><p data-en="24 × VR NVL72 across three pods. Design complete; tendering in preparation.">3 個 Pod、24 櫃 VR NVL72。設計完成，發包準備中。</p></div>
+      <div class="later"><span class="t" data-en="BY DEMAND">依需求</span><h3 data-en="Miaoli build-out · to 50 MW">頭份擴建 · 至 50 MW</h3><p data-en="Further phases on the same site and generation, using the Phase 1 modules.">同一廠區與發電設施，沿用第一期模組。</p></div>
+      <div class="later"><span class="t" data-en="BY DEMAND">依需求</span><h3 data-en="Kaohsiung · 50 MW">高雄小港 · 50 MW</h3><p data-en="Grid-powered southern campus, phased in step with customer commitments.">台電供電的南部園區，隨客戶承諾分期建置。</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="strip img-strip">
+      <img class="cover" src="img/aerial.jpg" srcset="img/aerial-800.webp 800w, img/aerial-1600.webp 1600w, img/aerial-2400.webp 2400w" sizes="100vw" width="1600" height="900" decoding="async" alt="" loading="lazy">
+      <div class="shade"></div>
+      <div><h2 data-en="Visit the Miaoli campus">參訪頭份園區</h2><p data-en="See the site, the power plant and the module layout with our engineers.">與工程團隊一起看廠區、發電設施與模組配置。</p></div>
+      <a class="btn btn-star" href="#contact" data-en="Book a site visit">預約參訪</a>
+    </div>
+  </div>
+</section>
+</div>
+</main>
+
+<nav class="mbar" id="mbar" aria-label="Quick actions">
+  <a class="btn btn-ghost" href="#calc" data-en="Estimate cost">費用試算</a>
+  <a class="btn btn-star" href="#contact" data-en="Reserve capacity">預約容量</a>
+</nav>
+<button class="totop" id="totop" type="button" aria-label="Back to top">↑</button>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-x" type="button" id="lbX" aria-label="Close">×</button>
+  <button class="lb-nav lb-prev" type="button" id="lbPrev" aria-label="Previous image">‹</button>
+  <button class="lb-nav lb-next" type="button" id="lbNext" aria-label="Next image">›</button>
+  <figure><img id="lbImg" alt=""><figcaption><span class="lb-count" id="lbCount"></span><span id="lbCap"></span></figcaption></figure>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#home" style="padding:0"><b style="color:var(--fg)">星算</b><span>STAR COUNTER</span></a>
+        <p style="margin-top:14px;max-width:24em" data-en="AI data center operator in Taiwan. Miaoli · Kaohsiung.">台灣 AI 資料中心營運商。苗栗頭份 · 高雄小港。</p>
+      </div>
+      <div><h3 data-en="SERVICES">服務</h3><a href="#offer" data-en="Liquid-cooled colocation">液冷託管</a><a href="#bare-metal" data-en="Bare-metal racks">整櫃裸機租賃</a><a href="#offer" data-en="Inference API">推論 API</a><a href="#calc" data-en="Cost estimator">費用試算</a></div>
+      <div><h3 data-en="CAMPUSES">園區</h3><a href="#campuses" data-en="Miaoli">苗栗 頭份</a><a href="#campuses" data-en="Kaohsiung">高雄 小港</a><a href="#phase1" data-en="Phase 1 spec">第一期規格</a></div>
+      <div><h3 data-en="COMPANY">公司</h3><a href="#stack" data-en="Infrastructure">技術架構</a><a href="#faq" data-en="FAQ">常見問題</a><a href="#resources" data-en="Spec sheet">規格書</a><a href="insights/warm-water-cooling.html" data-en="Insights">工程觀點</a><a href="#contact" data-en="Contact">聯絡我們</a></div>
+    </div>
+    <p class="tm" data-en="NVIDIA, Vera Rubin, NVLink and NVL72 are trademarks of NVIDIA Corporation. Other names are the property of their respective owners. Images are 3D renderings for illustration.">NVIDIA、Vera Rubin、NVLink、NVL72 為 NVIDIA Corporation 之商標，其他名稱為各所有人之財產。網站影像為 3D 渲染示意。</p>
+    <div class="legal"><span>© 2026 星算 Star Counter · starai.tw</span><span><a href="privacy.html" data-en="Privacy policy">隱私權政策</a> · <a href="mailto:sales@starai.tw">sales@starai.tw</a></span></div>
+  </div>
+</footer>
+
+<script>!function(){const e=matchMedia("(prefers-reduced-motion: reduce)").matches,t=e=>document.getElementById(e),a=(e,t,a)=>{const n=document.createElementNS("http://www.w3.org/2000/svg",e);for(const e in t)n.setAttribute(e,t[e]);return a&&(n.textContent=a),n},n="JetBrains Mono, monospace";let r="zh";function o(e){r=e,document.documentElement.lang="en"===e?"en":"zh-Hant",document.querySelectorAll("[data-en]").forEach(t=>{void 0===t.dataset.zh&&(t.dataset.zh=t.innerHTML),t.innerHTML="en"===e?t.dataset.en:t.dataset.zh}),document.querySelectorAll("[data-en-alt]").forEach(t=>{void 0===t.dataset.zhAlt&&(t.dataset.zhAlt=t.alt),t.alt="en"===e?t.dataset.enAlt:t.dataset.zhAlt}),document.querySelectorAll("[data-en-ph]").forEach(t=>{void 0===t.dataset.zhPh&&(t.dataset.zhPh=t.placeholder),t.placeholder="en"===e?t.dataset.enPh:t.dataset.zhPh});const a=t("langBtn");a.textContent="en"===e?"中文":"EN",a.setAttribute("aria-label","en"===e?"切換為中文":"Switch to English"),document.title="en"===e?"Star Counter · AI Factory Taiwan":"星算 Star Counter";try{localStorage.setItem("sc-lang",e)}catch(e){}q()}t("langBtn").addEventListener("click",()=>{o("en"===r?"zh":"en"),window.scTrack&&window.scTrack("language_switch")});const d=["bare-metal","campuses"];function i(){const t=decodeURIComponent(location.hash.slice(1)),a=t&&!d.includes(t)?document.getElementById(t):null,n=a&&a.closest(".view");[...document.querySelectorAll(".view")].find(e=>!e.hidden);if(a&&!n)return void(a.focus&&a.focus());const r=d.includes(t)?t:n?n.id.slice(2):"home";document.querySelectorAll(".view").forEach(e=>e.hidden=e.id!=="v-"+r),document.querySelectorAll(".links a").forEach(e=>{e.dataset.route===r?e.setAttribute("aria-current","page"):e.removeAttribute("aria-current")}),document.querySelector(".menu").open=!1,T&&T.forEach(e=>e.classList.remove("is-active")),t&&"home"!==t&&!d.includes(t)?a&&requestAnimationFrame(()=>a.scrollIntoView({behavior:e?"auto":"smooth"})):window.scrollTo(0,0)}addEventListener("hashchange",i);const l=(e,t,a)=>`M${e} ${t-a} L${e+.26*a} ${t-.26*a} L${e+a} ${t} L${e+.26*a} ${t+.26*a} L${e} ${t+a} L${e-.26*a} ${t+.26*a} L${e-a} ${t} L${e-.26*a} ${t-.26*a}Z`;!function(){const e=t("constellation"),r=a("g",{});[40,200,360].forEach((e,t)=>{[70,150].forEach((o,d)=>{r.appendChild(a("rect",{x:e,y:o,width:120,height:44,rx:3,fill:"none",stroke:"var(--line)"})),r.appendChild(a("text",{x:e,y:d?o+62:o-10,fill:"var(--muted)","font-family":n,"font-size":10,"letter-spacing":1},"ITM-"+(t+1)+(d+1)))}),r.appendChild(a("line",{x1:e+6,y1:132,x2:e+114,y2:132,stroke:"var(--chart)","stroke-dasharray":"2 4"}));const o=[e+10,e+24,e+96,e+110],d=[];[92,172].forEach(e=>o.forEach(t=>d.push([t,e])));r.appendChild(a("path",{d:"M"+[0,1,5,4,0,4,5,6,7,3,2,6].map(e=>d[e].join(" ")).join(" L"),fill:"none",stroke:"var(--star)","stroke-opacity":.35,"stroke-width":.8})),d.forEach(([e,n],o)=>{const d=a("g",{class:"twinkle",style:"animation-delay:"+(.17*(8*t+o)).toFixed(2)+"s"});d.appendChild(a("circle",{cx:e,cy:n,r:7,fill:"var(--star)","fill-opacity":.14})),d.appendChild(a("path",{d:l(e,n,5),fill:"var(--star)"})),r.appendChild(d)}),r.appendChild(a("rect",{x:e+12,y:258,width:96,height:34,rx:3,fill:"none",stroke:"var(--chart)","stroke-opacity":.7})),r.appendChild(a("text",{x:e+60,y:280,"text-anchor":"middle",fill:"var(--chart)","font-family":n,"font-size":10,"letter-spacing":1},"CM-"+(t+1))),r.appendChild(a("line",{x1:e+60,y1:214,x2:e+60,y2:258,stroke:"var(--chart)","stroke-opacity":.5})),r.appendChild(a("text",{x:e+60,y:30,"text-anchor":"middle",fill:"var(--fg)","font-family":n,"font-size":11,"font-weight":600,"letter-spacing":2},"POD "+(t+1)))}),["PB-1","PB-2","PB-3","PB-4"].forEach((e,t)=>{const o=40+110*t;r.appendChild(a("rect",{x:o,y:322,width:90,height:28,rx:3,fill:"var(--sky-2)",stroke:"var(--line)"})),r.appendChild(a("text",{x:o+45,y:340,"text-anchor":"middle",fill:"var(--muted)","font-family":n,"font-size":10,"letter-spacing":1},e))}),r.appendChild(a("text",{x:500,y:372,"text-anchor":"end",fill:"var(--muted)","font-family":n,"font-size":9,"letter-spacing":1},"DR4N3 · 4 × 2,500 kVA")),e.appendChild(r)}();const c=e=>e.toFixed(1),s=(e,t,a,n)=>[e.ox+.866*(t-a)*e.s,e.oy+.5*(t+a)*e.s-n*e.s],h=(e,t,n)=>a("polygon",Object.assign({points:e.map(e=>c(e[0])+","+c(e[1])).join(" "),fill:t},n||{})),p=(e,t,n)=>a("polyline",Object.assign({points:e.map(e=>c(e[0])+","+c(e[1])).join(" "),fill:"none",stroke:t},n||{})),f={m:["var(--m-t)","var(--m-l)","var(--m-r)"],c:["var(--c-t)","var(--c-l)","var(--c-r)"],p:["var(--p-t)","var(--p-l)","var(--p-r)"],k:["var(--rk-edge)","var(--rk-tray)","var(--rk)"]};function y(e,t,a){const{x:n,y:r,w:o,d:d,h:i}=a,l=a.z||0,c=f[a.m||"m"],p=(e,a,n)=>s(t,e,a,n),y={stroke:"var(--rk-edge)","stroke-width":.6,"stroke-linejoin":"round"};e.appendChild(h([p(n+o,r,l),p(n+o,r+d,l),p(n+o,r+d,l+i),p(n+o,r,l+i)],c[2],y)),e.appendChild(h([p(n,r+d,l),p(n+o,r+d,l),p(n+o,r+d,l+i),p(n,r+d,l+i)],c[1],y)),e.appendChild(h([p(n,r,l+i),p(n+o,r,l+i),p(n+o,r+d,l+i),p(n,r+d,l+i)],c[0],y)),a.deco&&a.deco(e,p,a)}const u=e=>e.sort((e,t)=>e.x+e.w/2+e.y+e.d/2-(t.x+t.w/2+t.y+t.d/2));function m(e,t,r,o,d){const i=s(t,o[0],o[1],o[2]),l=s(t,o[0],o[1],o[2]+d);e.appendChild(p([i,l],"var(--star)",{"stroke-width":1})),e.appendChild(a("circle",{cx:c(i[0]),cy:c(i[1]),r:2.5,fill:"var(--star)"})),e.appendChild(a("circle",{cx:c(l[0]),cy:c(l[1]),r:11,fill:"var(--star)"})),e.appendChild(a("text",{x:c(l[0]),y:c(l[1]+3.8),"text-anchor":"middle","font-family":n,"font-size":11,"font-weight":600,fill:"var(--star-ink)"},String(r)))}function v(e,t){t=Object.assign({lang:r},t||{});try{window.plausible&&window.plausible(e,{props:t}),window.gtag&&window.gtag("event",e,t),(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:e},t))}catch(e){}}document.querySelectorAll(".iso-aerial").forEach(function(e){const t={s:6,ox:340,oy:42},r=a("g",{}),o=function(e){let t=e;return()=>(t=16807*t%2147483647)/2147483647}(11);for(let e=0;e<120;e++)r.appendChild(a("circle",{cx:c(900*o()),cy:c(300*o()),r:c(1.1*o()+.3),fill:"var(--muted)","fill-opacity":c(.25+.5*o())}));const d=(e,a,n)=>s(t,e,a,n||0);r.appendChild(h([d(0,0),d(105,0),d(105,63),d(0,63)],"var(--gnd)",{stroke:"var(--gnd-l)"}));for(let e=7;e<105;e+=7)r.appendChild(p([d(e,0),d(e,63)],"var(--gnd-l)",{"stroke-width":.5}));for(let e=7;e<63;e+=7)r.appendChild(p([d(0,e),d(105,e)],"var(--gnd-l)",{"stroke-width":.5}));r.appendChild(h([d(0,56),d(105,56),d(105,61),d(0,61)],"var(--gnd-l)")),r.appendChild(h([d(24,0),d(27,0),d(27,56),d(24,56)],"var(--gnd-l)")),r.appendChild(p([d(1,1),d(104,1),d(104,62),d(1,62),d(1,1)],"var(--muted)",{"stroke-dasharray":"3 3","stroke-width":.8,"stroke-opacity":.6})),r.appendChild(p([d(4,58.5,0),d(24,58.5,0)],"var(--fg)",{"stroke-width":1.4})),[0,10,20].forEach(e=>{const t=d(4+e,58.5,0);r.appendChild(a("text",{x:c(t[0]),y:c(t[1]+14),"text-anchor":"middle","font-family":n,"font-size":9,fill:"var(--muted)"},e+(20===e?" m":"")))});const i=d(8,4,0),l=d(8,-3,0);r.appendChild(p([i,l],"var(--fg)",{"stroke-width":1.2,"marker-end":""})),r.appendChild(a("text",{x:c(l[0]+4),y:c(l[1]-2),"font-family":n,"font-size":10,"font-weight":600,fill:"var(--fg)"},"N"));const f=[],v=(e,t,a)=>{e.appendChild(p([t(a.x+.4,a.y+a.d,a.h-.55),t(a.x+a.w-.4,a.y+a.d,a.h-.55)],"var(--star)",{"stroke-width":1.6,"stroke-opacity":.9})),[1.4,3].forEach(n=>e.appendChild(h([t(a.x+n,a.y+a.d,0),t(a.x+n+.9,a.y+a.d,0),t(a.x+n+.9,a.y+a.d,2.2),t(a.x+n,a.y+a.d,2.2)],"var(--rk)",{"fill-opacity":.55})));for(let n=1;n<4;n++)e.appendChild(p([t(a.x+a.w*n/4,a.y,a.h),t(a.x+a.w*n/4,a.y+a.d,a.h)],"var(--rk-edge)",{"stroke-width":.5}))},x=[30,50,70];x.forEach(e=>{f.push({x:e,y:20,w:8.4,d:3.6,h:3.5,m:"m",deco:v}),f.push({x:e,y:25.1,w:8.4,d:3.6,h:3.5,m:"m",deco:v}),f.push({x:e+.6,y:32,w:7.2,d:3.6,h:3.5,m:"c",deco:(e,t,a)=>{[1.2,4.2].forEach(n=>e.appendChild(h([t(a.x+n,a.y+a.d,.4),t(a.x+n+1.8,a.y+a.d,.4),t(a.x+n+1.8,a.y+a.d,2.8),t(a.x+n,a.y+a.d,2.8)],"var(--rk)",{"fill-opacity":.35})))}})}),[10,16,37.6,43.6].forEach(e=>{f.push({x:10,y:e,w:12.2,d:3.6,h:3.6,m:"p",deco:(e,t,a)=>{for(let n=0;n<5;n++)e.appendChild(p([t(a.x+1+2.2*n,a.y+a.d,.5),t(a.x+1+2.2*n,a.y+a.d,3.1)],"var(--rk-edge)",{"stroke-width":.8}))}}),f.push({x:5.2,y:e+.4,w:3.4,d:2.8,h:2.6,m:"p",deco:(e,t,a)=>{for(let n=1;n<6;n++)e.appendChild(p([t(a.x+a.w,a.y+.45*n,.4),t(a.x+a.w,a.y+.45*n,2.2)],"var(--rk-edge)",{"stroke-width":.7}))}})});for(let e=0;e<9;e++)f.push({x:30+6.4*e,y:45.5,w:5.6,d:2.6,h:2.6,m:"m",deco:(e,n,r)=>{[r.x+1.45,r.x+4.15].forEach(o=>{const d=n(o,r.y+r.d/2,r.h);e.appendChild(a("ellipse",{cx:c(d[0]),cy:c(d[1]),rx:c(1.05*t.s),ry:c(.6*t.s),fill:"var(--rk)",stroke:"var(--chart)","stroke-width":.8})),e.appendChild(p([[d[0]-.9*t.s,d[1]],[d[0]+.9*t.s,d[1]]],"var(--chart)",{"stroke-width":.6}))})}});f.push({x:2,y:26,w:4.5,d:3.8,h:2.8,m:"m"},{x:2,y:31,w:4.5,d:3.8,h:2.8,m:"m"}),f.push({x:90,y:30,w:8,d:4,h:3,m:"c"},{x:90,y:35.5,w:8,d:4,h:3,m:"c"}),f.push({x:90,y:7,w:6,d:3,h:3,m:"m",deco:(e,t,a)=>e.appendChild(p([t(a.x+.5,a.y+a.d,2.4),t(a.x+a.w-.5,a.y+a.d,2.4)],"var(--chart)",{"stroke-width":1.4}))},{x:90,y:11.5,w:6,d:3,h:3,m:"m"}),u(f).forEach(e=>y(r,t,e));const g=[10,16,37.6,43.6],k={1:20,2:25.1};[[1,1,0,1],[1,2,2,3],[2,1,0,2],[2,2,1,3],[3,1,3,0],[3,2,1,2]].forEach(([e,t,a,n],o)=>{const i=k[t]+1.8,l=x[e-1];[[a,"var(--star)"],[n,"var(--chart)"]].forEach(([e,t],a)=>{const n=23.2+.28*o+.12*a,c=g[e]+1.8;r.appendChild(p([d(22.2,c,4.2),d(n,c,4.2),d(n,i,4.2),d(l,i,4.2)],t,{"stroke-width":1,"stroke-opacity":.75}))})}),m(r,t,1,[54.2,21.8,3.5],7),m(r,t,2,[74.2,33.8,3.5],7),m(r,t,3,[16.1,11.8,3.6],7),m(r,t,4,[60,46.8,2.6],6),e.appendChild(r)}),function(){const e=t("podCut"),r={s:28,ox:262,oy:170},o=a("g",{}),d=(e,t,a)=>s(r,e,t,a||0);y(o,r,{x:.45,y:-4.7,w:7.5,d:3.6,h:3.5,m:"c",deco:(e,t,r)=>{[1,4.4].forEach(a=>e.appendChild(h([t(r.x+a,r.y+r.d,.4),t(r.x+a+2.1,r.y+r.d,.4),t(r.x+a+2.1,r.y+r.d,2.9),t(r.x+a,r.y+r.d,2.9)],"var(--rk)",{"fill-opacity":.45,stroke:"var(--chart)","stroke-width":.6})));const o=t(r.x+r.w,r.y,r.h);e.appendChild(a("text",{x:c(o[0]+10),y:c(o[1]+4),"font-family":n,"font-size":11,fill:"var(--chart)","letter-spacing":1},"CM-1"))}}),[[2.2,"var(--star)",3],[2.2,"var(--chart)",2.6],[6.2,"var(--star)",3],[6.2,"var(--chart)",2.6]].forEach(([e,t,a])=>o.appendChild(p([d(e,-1.1,a),d(e,0,a)],t,{"stroke-width":3,"stroke-linecap":"round"})));const i=[{y:0,id:""},{y:5.1,id:"ITM-11 / ITM-12"}];i.forEach(e=>y(o,r,{x:0,y:e.y,w:8.4,d:3.6,h:.22,m:"m"})),o.appendChild(h([d(0,3.6,.02),d(8.4,3.6,.02),d(8.4,5.1,.02),d(0,5.1,.02)],"var(--chart)",{"fill-opacity":.25}));for(let e=1;e<6;e++)o.appendChild(p([d(1.4*e,3.7,.03),d(1.4*e,5,.03)],"var(--chart)",{"stroke-opacity":.5,"stroke-dasharray":"2 3"}));const f=["VR","VR","IRC","S","S","S","IRC","VR","VR"],v=[];i.forEach((e,t)=>f.forEach((e,n)=>{const r=0===t?2.3:5.25;v.push({x:.2+.9*n,y:r,w:.78,d:1.15,z:.22,h:"VR"===e?2.35:2.15,m:"VR"===e?"k":"IRC"===e?"c":"m",deco:"VR"===e?(e,t,n)=>{for(let r=0;r<7;r++){const o=t(n.x+.2,n.y+n.d,n.z+.35+.27*r);e.appendChild(a("circle",{cx:c(o[0]),cy:c(o[1]),r:1.3,fill:"var(--star)"}))}const r=t(n.x+n.w/2,n.y+n.d/2,n.z+n.h);e.appendChild(a("path",{d:l(r[0],r[1],6),fill:"var(--star)"}))}:null})})),u(v).forEach(e=>y(o,r,e)),i.forEach(e=>{const t=e.y,r=e.y+3.6,i=3.5,l={"stroke-dasharray":"4 4","stroke-width":.9,"stroke-opacity":.8};if(o.appendChild(p([d(0,t,i),d(8.4,t,i),d(8.4,r,i),d(0,r,i),d(0,t,i)],"var(--muted)",l)),[[0,t],[8.4,t],[8.4,r],[0,r]].forEach(([e,t])=>o.appendChild(p([d(e,t,.22),d(e,t,i)],"var(--muted)",l))),e.id){const t=d(4.2,r,0);o.appendChild(a("text",{x:c(t[0]-20),y:c(t[1]+22),"text-anchor":"middle","font-family":n,"font-size":11,fill:"var(--muted)","letter-spacing":1},e.id))}}),m(o,r,1,[.6,2.9,2.6],2.6),m(o,r,2,[4.2,4.35,.05],4.4),m(o,r,3,[4.1,2.9,2.4],2.4),m(o,r,4,[4.2,-2.9,3.5],1.6),e.appendChild(o)}(),function(){const e=t("rackElev"),r=a("g",{}),o=30;r.appendChild(a("rect",{x:22,y:8,width:176,height:544,rx:4,fill:"var(--rk)",stroke:"var(--rk-edge)"}));const d=528/35;let i=16,l=0;[["PWR",4],["CMP",10],["NVL",9],["CMP",8],["PWR",4]].forEach(([e,t])=>{for(let s=0;s<t;s++,l++){const t=i+s*d,h=d-2;r.appendChild(a("rect",{x:o,y:c(t),width:160,height:c(h),rx:1.5,fill:"var(--rk-tray)",stroke:"var(--rk-edge)","stroke-width":.6}));const p=t+h/2;if("PWR"===e)for(let e=0;e<6;e++)r.appendChild(a("circle",{cx:46+14*e,cy:c(p),r:4.2,fill:"none",stroke:"var(--muted)","stroke-width":.8}));if("CMP"===e){[0,1].forEach(e=>r.appendChild(a("circle",{cx:38+7*e,cy:c(p),r:1.8,fill:"var(--star)",class:"twinkle",style:"animation-delay:"+((.23*l+.7*e)%3.6).toFixed(2)+"s"})));for(let e=0;e<4;e++)r.appendChild(a("rect",{x:60+22*e,y:c(p-3.5),width:18,height:7,rx:1,fill:"none",stroke:"var(--rk-edge)","stroke-width":.8}))}if("NVL"===e)for(let e=0;e<18;e++)r.appendChild(a("rect",{x:38+7.6*e,y:c(p-2.5),width:5,height:5,fill:"var(--chart)","fill-opacity":e%3?.75:.35}));0===s&&r.appendChild(a("text",{x:184,y:c(p+3),"text-anchor":"end","font-family":n,"font-size":7.5,fill:"var(--muted)","letter-spacing":.5},e))}i+=t*d}),[25,195].forEach(e=>r.appendChild(p([[e,16],[e,544]],"var(--rk-edge)",{"stroke-width":1,"stroke-dasharray":"1 4"}))),e.appendChild(r)}(),window.scTrack=v,document.addEventListener("click",e=>{const t=e.target.closest("a,button");t&&(t.dataset.track?v(t.dataset.track):t.classList.contains("btn-star")&&v("cta_click",{label:(t.getAttribute("href")||t.id||"").slice(0,40)}))});let x=!1;t("calcForm").addEventListener("input",()=>{x||(x=!0,v("calculator_used"))});const g=t("lb"),k=t("lbImg"),w=t("lbCap"),C=t("lbCount");let E=[],b=0,L=null;function S(e){b=(e+E.length)%E.length;const t=E[b];k.src=t.dataset.src,k.alt=t.querySelector("img").alt;const a=t.querySelector(".cap");w.innerHTML=a?a.innerHTML:"",C.textContent=b+1+" / "+E.length}function z(){g.hidden=!0,document.body.classList.remove("locked"),k.removeAttribute("src"),L&&L.focus()}document.querySelectorAll(".shot").forEach(e=>e.addEventListener("click",()=>function(e){const a=e.closest(".view")||document;E=[...a.querySelectorAll(".shot")].filter(e=>null!==e.offsetParent),L=e,S(E.indexOf(e)),g.hidden=!1,document.body.classList.add("locked"),t("lbX").focus(),v("gallery_open",{image:(e.dataset.src||"").split("/").pop()})}(e))),t("lbX").addEventListener("click",z),t("lbPrev").addEventListener("click",()=>S(b-1)),t("lbNext").addEventListener("click",()=>S(b+1)),g.addEventListener("click",e=>{e.target===g&&z()}),addEventListener("keydown",e=>{if(!g.hidden)if("Escape"===e.key)z();else if("ArrowLeft"===e.key)S(b-1);else if("ArrowRight"===e.key)S(b+1);else if("Tab"===e.key){const a=[t("lbX"),t("lbPrev"),t("lbNext")],n=a.indexOf(document.activeElement);e.preventDefault(),a[(n+(e.shiftKey?-1:1)+a.length)%a.length].focus()}});let A=null;g.addEventListener("touchstart",e=>{A=e.touches[0].clientX},{passive:!0}),g.addEventListener("touchend",e=>{if(null===A)return;const t=e.changedTouches[0].clientX-A;Math.abs(t)>50&&S(b+(t<0?1:-1)),A=null});const I=document.querySelector(".site-header"),M=t("mbar"),R=t("totop");function P(){const e=scrollY;I.classList.toggle("scrolled",e>8),R.classList.toggle("show",e>1400);const a=t("contact").getBoundingClientRect(),n=!t("v-home").hidden;M.classList.toggle("away",!g.hidden||n&&a.top<innerHeight&&a.bottom>0)}addEventListener("scroll",P,{passive:!0}),P(),R.addEventListener("click",()=>scrollTo({top:0,behavior:e?"auto":"smooth"}));const T=[...document.querySelectorAll('.links a[href^="#"]')].filter(e=>!e.dataset.route);if("IntersectionObserver"in window){const e=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&T.forEach(t=>t.classList.toggle("is-active",t.getAttribute("href")==="#"+e.target.id))})},{rootMargin:"-45% 0px -50% 0px"});T.forEach(t=>{const a=document.getElementById(t.getAttribute("href").slice(1));a&&e.observe(a)})}document.querySelectorAll(".dots").forEach(e=>{for(let t=0;t<+e.dataset.n;t++)e.appendChild(document.createElement("i"))});const $=e=>e.toLocaleString("en-US");function q(){const e=+t("racks").value,a=+document.querySelector("input[name=kw]:checked").value,n=+document.querySelector("input[name=term]:checked").value,o=e*a,d=200*o,i=72*e;t("racksOut").textContent="en"===r?e+(e>1?" racks":" rack"):e+" 櫃",t("monthly").innerHTML="US$"+$(d)+"<small>"+("en"===r?"/ month":"/ 月")+"</small>",t("rKw").textContent=$(o)+" kW",t("rGpu").textContent=$(i),t("rGh").textContent="US$"+(d/(730*i)).toFixed(2),t("rTot").textContent="US$"+(12*d*n/1e6).toFixed(2)+" M"}t("calcForm").addEventListener("input",q);const j="sales@starai.tw",O=(e,t)=>"en"===r?t:e;t("lead").addEventListener("submit",async e=>{e.preventDefault();const a=e.target,n=t("sent");if(!a.reportValidity())return;if(a._gotcha.value)return;const o=Object.fromEntries(new FormData(a).entries());delete o._gotcha,o.language=r,o.page=location.href;{const e=Object.entries(o).map(([e,t])=>e+": "+t).join("\n");return location.href="mailto:"+j+"?subject="+encodeURIComponent("[starai.tw] "+(o.company||"")+" "+(o.engagement||""))+"&body="+encodeURIComponent(e),n.textContent=O("已開啟您的郵件程式。若沒有開啟，請直接寄信至 "+j+"。","Your mail app should open now. If it does not, email "+j+" directly."),n.hidden=!1,void(window.scTrack&&window.scTrack("lead_submit",{engagement:o.engagement||"",racks:o.racks||"",method:"mailto"}))}});let V=null;try{V=localStorage.getItem("sc-lang")}catch(e){}const B=new URLSearchParams(location.search).get("lang");"en"!==B&&"zh"!==B||(V=B),V||(V=/^zh/i.test(navigator.language||"")?"zh":"en"),o(V),i()}();
+</script>
+</body>
+</html>

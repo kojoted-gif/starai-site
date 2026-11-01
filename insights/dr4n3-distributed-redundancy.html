@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DR4N3 分散式冗餘：四座電力模組如何保護六座 IT 模組｜星算 Star Counter</title>
+<meta name="description" content="星算頭份第一期以 DR4N3 分散式冗餘供電：四座電力模組交叉供電六座 IT 模組，任一模組失效時其餘最高 98% 負載，比 2N 架構少用約三分之一的電力設備。">
+<link rel="canonical" href="https://starai.tw/insights/dr4n3-distributed-redundancy.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DR4N3 分散式冗餘：四座電力模組如何保護六座 IT 模組">
+<meta property="og:description" content="星算頭份第一期以 DR4N3 分散式冗餘供電：四座電力模組交叉供電六座 IT 模組，任一模組失效時其餘最高 98% 負載，比 2N 架構少用約三分之一的電力設備。">
+<meta property="og:image" content="https://starai.tw/img/power.jpg">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --sky:#0B0F17; --sky-2:#121925; --line:#243042; --fg:#E9EDF3; --muted:#9AA4B5;
+  --star:#E3B65C; --star-ink:#1A1206; --chart:#56B8CC; --btn:#E3B65C; --btn-ink:#1A1206;
+  --display:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:6px; --max:1180px;
+  /* illustration materials */
+  --gnd:#0F141D; --gnd-l:#1B2230;
+  --m-t:#2B3443; --m-l:#1E2531; --m-r:#171C26;
+  --c-t:#1F4C57; --c-l:#183C46; --c-r:#13313A;
+  --p-t:#4A3D22; --p-l:#3A301B; --p-r:#2D2615;
+  --rk:#07090E; --rk-tray:#151A24; --rk-edge:#2C3546;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --sky:#F7F8FA; --sky-2:#EDF0F4; --line:#D7DDE6; --fg:#0F1622; --muted:#535F71;
+  --star:#8A5B08; --star-ink:#FFFFFF; --chart:#0D6E82; --btn:#0F1622; --btn-ink:#FFFFFF;
+  --gnd:#E6E9EE; --gnd-l:#D3D9E2;
+  --m-t:#F6F7F9; --m-l:#CBD1DA; --m-r:#B0B8C4;
+  --c-t:#D2ECF1; --c-l:#A3D3DD; --c-r:#86C1CE;
+  --p-t:#F1E6CC; --p-l:#DCC9A0; --p-r:#C9B385;
+  --rk:#1A1F29; --rk-tray:#2A303D; --rk-edge:#47505F;
+  color-scheme:light}}
+:root[data-theme="light"]{
+  --sky:#F7F8FA; --sky-2:#EDF0F4; --line:#D7DDE6; --fg:#0F1622; --muted:#535F71;
+  --star:#8A5B08; --star-ink:#FFFFFF; --chart:#0D6E82; --btn:#0F1622; --btn-ink:#FFFFFF;
+  --gnd:#E6E9EE; --gnd-l:#D3D9E2;
+  --m-t:#F6F7F9; --m-l:#CBD1DA; --m-r:#B0B8C4;
+  --c-t:#D2ECF1; --c-l:#A3D3DD; --c-r:#86C1CE;
+  --p-t:#F1E6CC; --p-l:#DCC9A0; --p-r:#C9B385;
+  --rk:#1A1F29; --rk-tray:#2A303D; --rk-edge:#47505F;
+  color-scheme:light}
+
+
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--sky);color:var(--fg);font:400 17px/1.85 var(--body);-webkit-font-smoothing:antialiased}
+html[lang="en"] body{line-height:1.7}
+html[lang="en"] [data-l="zh"],html:not([lang="en"]) [data-l="en"]{display:none}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{border-bottom:1px solid var(--line);position:sticky;top:0;background:color-mix(in srgb,var(--sky) 92%,transparent);backdrop-filter:blur(10px);z-index:5}
+.top .wrap{max-width:1180px;display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.brand b{font:900 19px/1 var(--display);letter-spacing:.06em}
+.brand span{font:600 10.5px/1 var(--mono);letter-spacing:.18em;color:var(--muted)}
+.top nav{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:14px}
+.top nav a{text-decoration:none;color:var(--muted)}
+.lang{font:600 12px/1 var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--fg);cursor:pointer}
+.eyebrow{font:600 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--star)}
+header.art{padding-block:56px 28px}
+h1{font:900 clamp(30px,5vw,46px)/1.25 var(--display);margin:14px 0 16px;text-wrap:balance}
+.meta{font:500 13px var(--mono);color:var(--muted)}
+.lede{font-size:19px;color:var(--muted);margin:18px 0 0}
+figure.hero{margin:0 0 40px;border-radius:6px;overflow:hidden;background:#0b1024}
+figure.hero img{display:block;width:100%;height:auto}
+figure.hero figcaption{font:500 12px var(--mono);color:var(--muted);padding:8px 2px 0;background:var(--sky)}
+article h2{font:900 26px/1.35 var(--display);margin:44px 0 12px;text-wrap:balance}
+article p{margin:0 0 16px}
+article ul{padding-left:1.2em;margin:0 0 16px}
+article li{margin-bottom:6px}
+article strong{color:var(--fg)}
+.k{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.callout{border-left:3px solid var(--star);background:var(--sky-2);padding:16px 20px;border-radius:0 6px 6px 0;margin:24px 0}
+.fig{margin:28px 0;padding:20px;border:1px solid var(--line);border-radius:6px;background:var(--sky-2);overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.fig p{font-size:13.5px;color:var(--muted);margin:12px 0 0}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0 20px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+td.v{font-family:var(--mono);text-align:right;white-space:nowrap}
+.tw{overflow-x:auto}
+.cta{margin:56px 0 24px;padding:28px;border:1px solid color-mix(in srgb,var(--star) 45%,var(--line));border-radius:6px;background:var(--sky-2);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.cta h3{font:900 22px/1.3 var(--display);margin:0 0 6px}
+.cta p{margin:0;color:var(--muted);font-size:15px}
+.btn{display:inline-flex;font:600 14.5px/1 var(--body);padding:12px 18px;border-radius:6px;text-decoration:none;background:var(--star);color:var(--star-ink)}
+.rel{border-top:1px solid var(--line);padding-block:24px 64px;font-size:15px}
+.rel a{color:var(--star);font-weight:600;text-decoration:none}
+footer{border-top:1px solid var(--line);padding-block:28px;font:500 12px var(--mono);color:var(--muted)}
+:focus-visible{outline:2px solid var(--star);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <a class="brand" href="../index.html"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1 L15.2 10.8 L25 13 L15.2 15.2 L13 25 L10.8 15.2 L1 13 L10.8 10.8 Z" fill="var(--star)"/></svg><b>星算</b><span>STAR COUNTER</span></a>
+  <nav><a href="../index.html#resources"><span data-l="zh">所有文章</span><span data-l="en">All insights</span></a><a href="../index.html#contact"><span data-l="zh">聯絡我們</span><span data-l="en">Contact</span></a><button class="lang" id="lang" type="button">EN</button></nav>
+</div></div>
+<main class="wrap">
+  <header class="art">
+    <span class="eyebrow">Insights · Power</span>
+    <h1><span data-l="zh">DR4N3 分散式冗餘：四座電力模組如何保護六座 IT 模組</span><span data-l="en">DR4N3 distributed redundancy: how four power blocks protect six IT modules</span></h1>
+    <p class="meta"><span data-l="zh">星算工程團隊 · 2026-10-31 · 閱讀約 6 分鐘</span><span data-l="en">Star Counter engineering · 2026-10-31 · 5 min read</span></p>
+    <p class="lede"><span data-l="zh">2N 是最直覺的備援方式，但它讓一半的設備長期閒置。我們改用四座電力模組交叉供電，在同樣不斷電的前提下，用更少的設備達到相同的保護。</span><span data-l="en">2N is the most intuitive form of redundancy, but it leaves half the equipment idle. We cross-feed from four power blocks instead, keeping the same no-break protection with less equipment.</span></p>
+  </header>
+  <figure class="hero"><img src="../img/power.jpg" srcset="../img/power-800.webp 800w, ../img/power-1600.webp 1600w, ../img/power-2400.webp 2400w" sizes="(max-width:900px) 100vw, 860px" width="1600" height="900" alt=""><figcaption><span data-l="zh">3D 渲染示意</span><span data-l="en">3D render</span></figcaption></figure>
+  <article>
+    <div data-l="zh"><h2>從 2N 說起</h2>
+<p>2N 架構把整套供電系統做兩份，A、B 兩路各自能扛下全部負載。好處是邏輯簡單；代價是裝置容量為負載的 <strong class="k">2 倍</strong>，正常運轉時每一路都只用到一半。</p>
+<h2>DR4N3：四座模組、任三座就夠</h2>
+<p>分散式冗餘（Distributed Redundancy）把負載拆給多座電力模組。頭份第一期設置 <strong class="k">4 座</strong>電力模組，每座配 <strong class="k">2,500 kVA</strong> 變壓器、UPS 與 LFP 電池。容量設計成任意 <strong class="k">3 座</strong>就能撐起全場，也就是「4N3」。裝置容量約為負載的 4/3 倍，比 2N 少用約三分之一的電力設備。</p>
+<h2>每座 IT 模組都有兩條獨立電源</h2>
+<p>六座 IT 模組各有 A、B 兩路供電，分別接到兩座不同的電力模組。我們刻意讓同一個 Pod 的兩座 IT 模組不共用任何電力模組，且每座電力模組在 A、B 兩層匯流排支架上各最多兩路，使負載平均分散。</p>
+<div class="callout"><strong>設計檢核</strong>：正常運轉每座電力模組約 <span class="k">1,241 kW</span>（62%）。任一電力模組或任一匯流排支架失效時，其餘電力模組最高 MaxQ <span class="k">1,654 kW</span>、MaxP <span class="k">1,966 kW</span>，約 <span class="k">98%</span>。</div>
+<h2>設計為切換期間不斷電</h2>
+<p>當一座電力模組離線，受影響的 IT 模組改由另一路承接；LFP 電池提供 <strong class="k">5 分鐘</strong>維持時間，涵蓋切換過程。電源端則有自有燃氣機組與台電兩個來源，經 24 kV 雙進線環路開關進場。</p>
+<h2>對客戶的意義</h2>
+<ul><li><strong>設計上無單點故障</strong>：任一電力模組或匯流排支架失效時，設計為由另一路持續供電。</li><li><strong>可維護</strong>：電力模組可以輪流停機保養，不需要整場停電。</li><li><strong>成本效率</strong>：更少的閒置設備，反映在託管價格上。</li></ul></div>
+    <div data-l="en"><h2>Starting from 2N</h2>
+<p>A 2N design builds the whole power chain twice; feeds A and B can each carry the full load. It is simple to reason about, but installed capacity is <strong class="k">2×</strong> the load and each side runs at half capacity in normal operation.</p>
+<h2>DR4N3: four blocks, any three suffice</h2>
+<p>Distributed redundancy spreads the load across several power blocks. Miaoli Phase 1 has <strong class="k">four</strong> blocks, each with a <strong class="k">2,500 kVA</strong> transformer, UPS and LFP batteries, sized so that any <strong class="k">three</strong> can carry the site: “4N3”. Installed capacity is about 4/3 of the load, roughly a third less power equipment than 2N.</p>
+<h2>Every IT module has two independent feeds</h2>
+<p>Each of the six IT modules has an A and a B feed landing on two different power blocks. The two modules in a pod never share a block, and each block carries at most two feeds on each of the A and B busway decks, so load stays evenly spread.</p>
+<div class="callout"><strong>Design check</strong>: in normal operation each block carries about <span class="k">1,241 kW</span> (62%). If any power block or busway tray fails, the remaining blocks peak at <span class="k">1,654 kW</span> Max-Q and <span class="k">1,966 kW</span> Max-P, about <span class="k">98%</span>.</div>
+<h2>Designed for no break during transfer</h2>
+<p>When a block goes offline, affected IT modules pick up from their other feed; LFP batteries hold for <strong class="k">5 minutes</strong>, covering the transfer. Upstream, on-site gas generation and Taipower both arrive through dual 24 kV ring main units.</p>
+<h2>What it means for customers</h2>
+<ul><li><strong>No single point of failure by design</strong>: the other feed is designed to carry the load through the loss of any power block or busway tray.</li><li><strong>Maintainable</strong>: blocks can be serviced one at a time without a site outage.</li><li><strong>Cost efficiency</strong>: less idle equipment shows up in the colocation price.</li></ul></div>
+    <div class="fig"><svg viewBox="0 0 460 250" role="img" aria-label="DR4N3 feed matrix"><g font-family="JetBrains Mono, monospace" font-size="12"><text x="150" y="20" text-anchor="middle" fill="var(--muted)">PB-1</text><text x="222" y="20" text-anchor="middle" fill="var(--muted)">PB-2</text><text x="294" y="20" text-anchor="middle" fill="var(--muted)">PB-3</text><text x="366" y="20" text-anchor="middle" fill="var(--muted)">PB-4</text><text x="10" y="54" fill="var(--fg)" font-weight="600">ITM-11</text><rect x="120" y="34" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="150" y="52" text-anchor="middle" fill="var(--star-ink)">A</text><rect x="192" y="34" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="222" y="52" text-anchor="middle" fill="var(--fg)">B</text><rect x="264" y="34" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="294" y="52" text-anchor="middle" fill="var(--fg)">·</text><rect x="336" y="34" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="366" y="52" text-anchor="middle" fill="var(--fg)">·</text><text x="10" y="88" fill="var(--fg)" font-weight="600">ITM-12</text><rect x="120" y="68" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="150" y="86" text-anchor="middle" fill="var(--fg)">·</text><rect x="192" y="68" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="222" y="86" text-anchor="middle" fill="var(--fg)">·</text><rect x="264" y="68" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="294" y="86" text-anchor="middle" fill="var(--star-ink)">A</text><rect x="336" y="68" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="366" y="86" text-anchor="middle" fill="var(--fg)">B</text><text x="10" y="122" fill="var(--fg)" font-weight="600">ITM-21</text><rect x="120" y="102" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="150" y="120" text-anchor="middle" fill="var(--star-ink)">A</text><rect x="192" y="102" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="222" y="120" text-anchor="middle" fill="var(--fg)">·</text><rect x="264" y="102" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="294" y="120" text-anchor="middle" fill="var(--fg)">B</text><rect x="336" y="102" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="366" y="120" text-anchor="middle" fill="var(--fg)">·</text><text x="10" y="156" fill="var(--fg)" font-weight="600">ITM-22</text><rect x="120" y="136" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="150" y="154" text-anchor="middle" fill="var(--fg)">·</text><rect x="192" y="136" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="222" y="154" text-anchor="middle" fill="var(--star-ink)">A</text><rect x="264" y="136" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="294" y="154" text-anchor="middle" fill="var(--fg)">·</text><rect x="336" y="136" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="366" y="154" text-anchor="middle" fill="var(--fg)">B</text><text x="10" y="190" fill="var(--fg)" font-weight="600">ITM-31</text><rect x="120" y="170" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="150" y="188" text-anchor="middle" fill="var(--fg)">B</text><rect x="192" y="170" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="222" y="188" text-anchor="middle" fill="var(--fg)">·</text><rect x="264" y="170" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="294" y="188" text-anchor="middle" fill="var(--fg)">·</text><rect x="336" y="170" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="366" y="188" text-anchor="middle" fill="var(--star-ink)">A</text><text x="10" y="224" fill="var(--fg)" font-weight="600">ITM-32</text><rect x="120" y="204" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="150" y="222" text-anchor="middle" fill="var(--fg)">·</text><rect x="192" y="204" width="60" height="26" rx="4" fill="var(--star)" stroke="var(--line)"/><text x="222" y="222" text-anchor="middle" fill="var(--star-ink)">A</text><rect x="264" y="204" width="60" height="26" rx="4" fill="color-mix(in srgb, var(--chart) 35%, transparent)" stroke="var(--line)"/><text x="294" y="222" text-anchor="middle" fill="var(--fg)">B</text><rect x="336" y="204" width="60" height="26" rx="4" fill="none" stroke="var(--line)"/><text x="366" y="222" text-anchor="middle" fill="var(--fg)">·</text></g></svg><p><span data-l="zh">每一列是一座 IT 模組，A、B 兩路分別接到不同的電力模組；同一個 Pod（例如 ITM-11 與 ITM-12）不共用電力模組。</span><span data-l="en">Each row is an IT module whose A and B feeds land on different power blocks; the two modules of a pod (e.g. ITM-11 and ITM-12) never share a block.</span></p></div>
+    <div class="cta"><div><h3><span data-l="zh">需要完整規格？</span><span data-l="en">Need the full specification?</span></h3>
+      <p><span data-l="zh">下載頭份第一期規格書，或直接與工程團隊討論您的部署。</span><span data-l="en">Download the Miaoli Phase 1 spec sheet, or talk to our engineers about your deployment.</span></p></div>
+      <a class="btn" href="../index.html#contact"><span data-l="zh">預約第一期容量</span><span data-l="en">Reserve Phase 1 capacity</span></a></div>
+  </article>
+  <p class="rel"><span data-l="zh">延伸閱讀：</span><span data-l="en">Related: </span><a href="warm-water-cooling.html"><span data-l="zh">45 °C 溫水液冷：為什麼 Vera Rubin 機房可以不靠冰水機</span><span data-l="en">45 °C warm-water cooling</span> →</a></p>
+</main>
+<footer><div class="wrap">© 2026 星算 Star Counter · starai.tw</div></footer>
+<script>
+(function(){
+  var b = document.getElementById('lang'), l = null;
+  try { l = localStorage.getItem('sc-lang'); } catch(e) {}
+  var q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'zh') l = q;
+  if (!l) l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  function set(x){ l = x; document.documentElement.lang = x === 'en' ? 'en' : 'zh-Hant'; b.textContent = x === 'en' ? '中文' : 'EN';
+    try { localStorage.setItem('sc-lang', x); } catch(e) {} }
+  b.addEventListener('click', function(){ set(l === 'en' ? 'zh' : 'en'); });
+  set(l);
+})();
+</script>
+</body>
+</html>
